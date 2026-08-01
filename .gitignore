@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.aicoding-chat-workspace
+
+# Environment
+.env
+.env.local
+.superdesign/tmp/
+frontend/.superdesign/tmp/
+.env.*.local
+
+# Docker
+.docker/
+
+# Local workspace artifacts
+work/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files
+backend/data/*.xml
+!backend/data/.gitkeep
+
+# Mypy
+.mypy_cache/
+
+# Pytest
+.pytest_cache/
+htmlcov/
+.coverage

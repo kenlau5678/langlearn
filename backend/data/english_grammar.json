@@ -1,0 +1,1324 @@
+[
+  {
+    "surface_form": "Present Simple",
+    "reading": null,
+    "meaning_zh": "一般现在时",
+    "meaning_en": "Present Simple Tense",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于表示习惯性动作、普遍真理、固定安排。结构：主语 + 动词原形（第三人称单数加-s）。",
+    "example_target": [
+      "She works in a hospital."
+    ],
+    "example_zh": [
+      "她在医院工作。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Present Continuous",
+    "reading": null,
+    "meaning_zh": "现在进行时",
+    "meaning_en": "Present Continuous Tense",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于表示正在发生的动作或暂时的情况。结构：主语 + am/is/are + 动词-ing。",
+    "example_target": [
+      "They are studying for the exam right now."
+    ],
+    "example_zh": [
+      "他们现在正在为考试学习。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Past Simple",
+    "reading": null,
+    "meaning_zh": "一般过去时",
+    "meaning_en": "Past Simple Tense",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于表示过去某一时间发生的已完成的动作。结构：主语 + 动词过去式。",
+    "example_target": [
+      "He visited his grandparents last weekend."
+    ],
+    "example_zh": [
+      "他上周末去看望了祖父母。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Past Continuous",
+    "reading": null,
+    "meaning_zh": "过去进行时",
+    "meaning_en": "Past Continuous Tense",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于表示过去某一时刻正在进行的动作，常与过去简单时搭配使用。结构：主语 + was/were + 动词-ing。",
+    "example_target": [
+      "I was reading a book when the phone rang."
+    ],
+    "example_zh": [
+      "电话响的时候我正在看书。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Future Simple (will)",
+    "reading": null,
+    "meaning_zh": "一般将来时（will）",
+    "meaning_en": "Future Simple Tense (will)",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于表示将来的决定、预测或承诺。结构：主语 + will + 动词原形。",
+    "example_target": [
+      "I will help you with your homework."
+    ],
+    "example_zh": [
+      "我会帮你做作业。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Future with going to",
+    "reading": null,
+    "meaning_zh": "将来时（going to）",
+    "meaning_en": "Future with going to",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于表示已经计划好或有迹象表明将要发生的事情。结构：主语 + am/is/are going to + 动词原形。",
+    "example_target": [
+      "It's going to rain tomorrow."
+    ],
+    "example_zh": [
+      "明天要下雨。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Present Perfect",
+    "reading": null,
+    "meaning_zh": "现在完成时",
+    "meaning_en": "Present Perfect Tense",
+    "proficiency_level": "4.5",
+    "explanation_zh": "用于表示过去发生的动作对现在有影响，或从过去持续到现在的状态。结构：主语 + have/has + 过去分词。",
+    "example_target": [
+      "She has lived in London for five years."
+    ],
+    "example_zh": [
+      "她在伦敦住了五年了。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Present Perfect Continuous",
+    "reading": null,
+    "meaning_zh": "现在完成进行时",
+    "meaning_en": "Present Perfect Continuous Tense",
+    "proficiency_level": "4.5",
+    "explanation_zh": "用于表示从过去开始一直持续到现在的动作，强调动作的持续性。结构：主语 + have/has been + 动词-ing。",
+    "example_target": [
+      "I have been waiting for you since morning."
+    ],
+    "example_zh": [
+      "我从早上起就一直在等你。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Modal: can / could",
+    "reading": null,
+    "meaning_zh": "情态动词：can / could",
+    "meaning_en": "Modal Verbs: can / could",
+    "proficiency_level": "4.0",
+    "explanation_zh": "can表示能力或许可，could是can的过去式，也可用于更礼貌的请求。结构：主语 + can/could + 动词原形。",
+    "example_target": [
+      "Can you speak English?",
+      "Could you open the window, please?"
+    ],
+    "example_zh": [
+      "你会说英语吗？",
+      "你能打开窗户吗？"
+    ],
+    "pattern_type": "modal"
+  },
+  {
+    "surface_form": "Modal: should",
+    "reading": null,
+    "meaning_zh": "情态动词：should",
+    "meaning_en": "Modal Verb: should",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于表示建议、义务或期望。结构：主语 + should + 动词原形。否定形式为should not (shouldn't)。",
+    "example_target": [
+      "You should eat more vegetables."
+    ],
+    "example_zh": [
+      "你应该多吃蔬菜。"
+    ],
+    "pattern_type": "modal"
+  },
+  {
+    "surface_form": "Modal: must / have to",
+    "reading": null,
+    "meaning_zh": "情态动词：must / have to",
+    "meaning_en": "Modal Verbs: must / have to",
+    "proficiency_level": "4.0",
+    "explanation_zh": "must表示强烈的义务或推断，have to表示外部要求的必须。结构：主语 + must/have to + 动词原形。",
+    "example_target": [
+      "You must wear a seatbelt.",
+      "I have to finish this by Friday."
+    ],
+    "example_zh": [
+      "你必须系安全带。",
+      "我必须在周五前完成这个。"
+    ],
+    "pattern_type": "modal"
+  },
+  {
+    "surface_form": "Modal: may / might",
+    "reading": null,
+    "meaning_zh": "情态动词：may / might",
+    "meaning_en": "Modal Verbs: may / might",
+    "proficiency_level": "4.5",
+    "explanation_zh": "用于表示可能性或许可。may的可能性较大，might的可能性较小。结构：主语 + may/might + 动词原形。",
+    "example_target": [
+      "It may rain later.",
+      "She might come to the party."
+    ],
+    "example_zh": [
+      "待会儿可能下雨。",
+      "她可能会来参加聚会。"
+    ],
+    "pattern_type": "modal"
+  },
+  {
+    "surface_form": "Zero Conditional",
+    "reading": null,
+    "meaning_zh": "零条件句",
+    "meaning_en": "Zero Conditional",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于表示普遍真理或总是成立的事实。结构：If + 一般现在时, 一般现在时。",
+    "example_target": [
+      "If you heat water to 100 degrees C, it boils."
+    ],
+    "example_zh": [
+      "如果把水加热到100摄氏度，它就会沸腾。"
+    ],
+    "pattern_type": "conditional"
+  },
+  {
+    "surface_form": "First Conditional",
+    "reading": null,
+    "meaning_zh": "第一条件句",
+    "meaning_en": "First Conditional",
+    "proficiency_level": "4.5",
+    "explanation_zh": "用于表示将来可能发生的情况及其结果。结构：If + 一般现在时, will + 动词原形。",
+    "example_target": [
+      "If it rains tomorrow, I will stay at home."
+    ],
+    "example_zh": [
+      "如果明天下雨，我就待在家里。"
+    ],
+    "pattern_type": "conditional"
+  },
+  {
+    "surface_form": "Definite Article (the)",
+    "reading": null,
+    "meaning_zh": "定冠词 the",
+    "meaning_en": "Definite Article (the)",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于指特定的、已知的或唯一的事物。当说话双方都知道所指对象时使用the。",
+    "example_target": [
+      "The book on the table is mine.",
+      "The sun rises in the east."
+    ],
+    "example_zh": [
+      "桌上的那本书是我的。",
+      "太阳从东方升起。"
+    ],
+    "pattern_type": "article"
+  },
+  {
+    "surface_form": "Indefinite Articles (a / an)",
+    "reading": null,
+    "meaning_zh": "不定冠词 a / an",
+    "meaning_en": "Indefinite Articles (a / an)",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于指泛指的、第一次提到的单数可数名词。a用在辅音开头的词前，an用在元音开头的词前。",
+    "example_target": [
+      "I saw a cat in the garden.",
+      "She is an engineer."
+    ],
+    "example_zh": [
+      "我在花园里看到了一只猫。",
+      "她是一名工程师。"
+    ],
+    "pattern_type": "article"
+  },
+  {
+    "surface_form": "Comparative Adjectives",
+    "reading": null,
+    "meaning_zh": "比较级形容词",
+    "meaning_en": "Comparative Adjectives",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于比较两个事物的差异。短形容词加-er，长形容词前加more。结构：A + be + 比较级 + than + B。",
+    "example_target": [
+      "This book is more interesting than that one."
+    ],
+    "example_zh": [
+      "这本书比那本更有趣。"
+    ],
+    "pattern_type": "comparison"
+  },
+  {
+    "surface_form": "Superlative Adjectives",
+    "reading": null,
+    "meaning_zh": "最高级形容词",
+    "meaning_en": "Superlative Adjectives",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于表示三者或三者以上中最突出的一个。短形容词加-est，长形容词前加most，前面要加the。",
+    "example_target": [
+      "She is the tallest student in the class."
+    ],
+    "example_zh": [
+      "她是班上最高的学生。"
+    ],
+    "pattern_type": "comparison"
+  },
+  {
+    "surface_form": "Basic Passive Voice (Present)",
+    "reading": null,
+    "meaning_zh": "基本被动语态（现在时）",
+    "meaning_en": "Basic Passive Voice (Present)",
+    "proficiency_level": "4.5",
+    "explanation_zh": "用于强调动作的承受者而非执行者。结构：主语 + am/is/are + 过去分词 (+ by + 执行者)。",
+    "example_target": [
+      "English is spoken in many countries."
+    ],
+    "example_zh": [
+      "许多国家都说英语。"
+    ],
+    "pattern_type": "passive"
+  },
+  {
+    "surface_form": "Basic Passive Voice (Past)",
+    "reading": null,
+    "meaning_zh": "基本被动语态（过去时）",
+    "meaning_en": "Basic Passive Voice (Past)",
+    "proficiency_level": "4.5",
+    "explanation_zh": "过去时的被动语态，用于描述过去发生的被动动作。结构：主语 + was/were + 过去分词 (+ by + 执行者)。",
+    "example_target": [
+      "The window was broken by the ball."
+    ],
+    "example_zh": [
+      "窗户被球打碎了。"
+    ],
+    "pattern_type": "passive"
+  },
+  {
+    "surface_form": "There is / There are",
+    "reading": null,
+    "meaning_zh": "There be 句型",
+    "meaning_en": "There is / There are",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于表示某处存在某物。单数用there is，复数用there are。结构：There + be + 名词 + 地点/时间。",
+    "example_target": [
+      "There is a park near my house.",
+      "There are many students in the library."
+    ],
+    "example_zh": [
+      "我家附近有一个公园。",
+      "图书馆里有很多学生。"
+    ],
+    "pattern_type": "sentence_pattern"
+  },
+  {
+    "surface_form": "Prepositions of Time (in, on, at)",
+    "reading": null,
+    "meaning_zh": "时间介词 in, on, at",
+    "meaning_en": "Prepositions of Time (in, on, at)",
+    "proficiency_level": "4.0",
+    "explanation_zh": "in用于较长的时间段（月、年、季节），on用于具体日期和星期几，at用于具体时刻。",
+    "example_target": [
+      "I was born in 1995.",
+      "The meeting is on Monday.",
+      "Class starts at 9 a.m."
+    ],
+    "example_zh": [
+      "我出生于1995年。",
+      "会议在星期一。",
+      "课在上午九点开始。"
+    ],
+    "pattern_type": "preposition"
+  },
+  {
+    "surface_form": "Countable and Uncountable Nouns",
+    "reading": null,
+    "meaning_zh": "可数名词与不可数名词",
+    "meaning_en": "Countable and Uncountable Nouns",
+    "proficiency_level": "4.0",
+    "explanation_zh": "可数名词有单复数形式，可与a/an或数字连用；不可数名词无复数，不能与a/an连用，常用some/much/a lot of修饰。",
+    "example_target": [
+      "I need some information.",
+      "She has three brothers."
+    ],
+    "example_zh": [
+      "我需要一些信息。",
+      "她有三个兄弟。"
+    ],
+    "pattern_type": "noun"
+  },
+  {
+    "surface_form": "Basic Conjunctions (and, but, or, so, because)",
+    "reading": null,
+    "meaning_zh": "基本连词",
+    "meaning_en": "Basic Conjunctions (and, but, or, so, because)",
+    "proficiency_level": "4.0",
+    "explanation_zh": "and表示并列，but表示转折，or表示选择，so表示结果，because表示原因。用于连接词、短语或句子。",
+    "example_target": [
+      "I like tea and coffee.",
+      "She was tired but she kept working."
+    ],
+    "example_zh": [
+      "我喜欢茶和咖啡。",
+      "她很累但还是继续工作。"
+    ],
+    "pattern_type": "conjunction"
+  },
+  {
+    "surface_form": "Possessive Adjectives and Pronouns",
+    "reading": null,
+    "meaning_zh": "物主形容词和物主代词",
+    "meaning_en": "Possessive Adjectives and Pronouns",
+    "proficiency_level": "4.0",
+    "explanation_zh": "物主形容词（my, your, his, her, its, our, their）放在名词前修饰名词；物主代词（mine, yours, his, hers, ours, theirs）独立使用。",
+    "example_target": [
+      "This is my book.",
+      "The book is mine."
+    ],
+    "example_zh": [
+      "这是我的书。",
+      "这本书是我的。"
+    ],
+    "pattern_type": "pronoun"
+  },
+  {
+    "surface_form": "Imperative Sentences",
+    "reading": null,
+    "meaning_zh": "祈使句",
+    "meaning_en": "Imperative Sentences",
+    "proficiency_level": "4.0",
+    "explanation_zh": "用于表示命令、请求、建议或指示，省略主语you，动词用原形。否定形式在动词前加don't。",
+    "example_target": [
+      "Open the door, please.",
+      "Don't touch that!"
+    ],
+    "example_zh": [
+      "请开门。",
+      "别碰那个！"
+    ],
+    "pattern_type": "sentence_pattern"
+  },
+  {
+    "surface_form": "Question Tags",
+    "reading": null,
+    "meaning_zh": "反义疑问句",
+    "meaning_en": "Question Tags",
+    "proficiency_level": "4.5",
+    "explanation_zh": "在陈述句末尾加上简短问句以确认信息或寻求同意。前肯定后否定，前否定后肯定。",
+    "example_target": [
+      "You're a student, aren't you?",
+      "She can't swim, can she?"
+    ],
+    "example_zh": [
+      "你是学生，对吧？",
+      "她不会游泳，是吗？"
+    ],
+    "pattern_type": "sentence_pattern"
+  },
+  {
+    "surface_form": "Used to",
+    "reading": null,
+    "meaning_zh": "used to（过去常常）",
+    "meaning_en": "Used to (past habit)",
+    "proficiency_level": "4.5",
+    "explanation_zh": "用于表示过去经常做但现在已经不再做的事情。结构：主语 + used to + 动词原形。",
+    "example_target": [
+      "I used to play football every day when I was young."
+    ],
+    "example_zh": [
+      "我小时候每天都踢足球。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Modal: would (for polite requests)",
+    "reading": null,
+    "meaning_zh": "情态动词：would（礼貌请求）",
+    "meaning_en": "Modal Verb: would (polite requests)",
+    "proficiency_level": "4.5",
+    "explanation_zh": "would用于礼貌地提出请求或邀请，比will更委婉。结构：Would + you + 动词原形。",
+    "example_target": [
+      "Would you like some coffee?",
+      "Would you mind closing the door?"
+    ],
+    "example_zh": [
+      "你想喝点咖啡吗？",
+      "你介意关一下门吗？"
+    ],
+    "pattern_type": "modal"
+  },
+  {
+    "surface_form": "Adverbs of Frequency",
+    "reading": null,
+    "meaning_zh": "频率副词",
+    "meaning_en": "Adverbs of Frequency",
+    "proficiency_level": "4.0",
+    "explanation_zh": "表示动作发生的频率，如always（总是）、usually（通常）、often（经常）、sometimes（有时）、rarely（很少）、never（从不）。通常放在实义动词前、be动词后。",
+    "example_target": [
+      "She always gets up early.",
+      "He is never late for school."
+    ],
+    "example_zh": [
+      "她总是早起。",
+      "他上学从不迟到。"
+    ],
+    "pattern_type": "adverb"
+  },
+  {
+    "surface_form": "Past Perfect",
+    "reading": null,
+    "meaning_zh": "过去完成时",
+    "meaning_en": "Past Perfect Tense",
+    "proficiency_level": "5.5",
+    "explanation_zh": "用于表示在过去某一时间或动作之前已经完成的动作，即过去的过去。结构：主语 + had + 过去分词。",
+    "example_target": [
+      "By the time we arrived, the film had already started."
+    ],
+    "example_zh": [
+      "我们到达时，电影已经开始了。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Past Perfect Continuous",
+    "reading": null,
+    "meaning_zh": "过去完成进行时",
+    "meaning_en": "Past Perfect Continuous Tense",
+    "proficiency_level": "5.5",
+    "explanation_zh": "用于表示在过去某一时间之前一直在持续进行的动作，强调动作的持续性。结构：主语 + had been + 动词-ing。",
+    "example_target": [
+      "She had been working for ten hours before she took a break."
+    ],
+    "example_zh": [
+      "她休息之前已经连续工作了十个小时。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Future Perfect",
+    "reading": null,
+    "meaning_zh": "将来完成时",
+    "meaning_en": "Future Perfect Tense",
+    "proficiency_level": "5.5",
+    "explanation_zh": "用于表示在将来某一时间之前将已经完成的动作。结构：主语 + will have + 过去分词。",
+    "example_target": [
+      "By next year, I will have graduated from university."
+    ],
+    "example_zh": [
+      "到明年，我就已经从大学毕业了。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Future Perfect Continuous",
+    "reading": null,
+    "meaning_zh": "将来完成进行时",
+    "meaning_en": "Future Perfect Continuous Tense",
+    "proficiency_level": "5.5",
+    "explanation_zh": "用于表示在将来某一时间之前一直在持续进行的动作，强调持续时间。结构：主语 + will have been + 动词-ing。",
+    "example_target": [
+      "By December, she will have been living here for two years."
+    ],
+    "example_zh": [
+      "到十二月，她就在这里住满两年了。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Future Continuous",
+    "reading": null,
+    "meaning_zh": "将来进行时",
+    "meaning_en": "Future Continuous Tense",
+    "proficiency_level": "5.5",
+    "explanation_zh": "用于表示将来某一时刻正在进行的动作。结构：主语 + will be + 动词-ing。",
+    "example_target": [
+      "This time tomorrow, I will be flying to Paris."
+    ],
+    "example_zh": [
+      "明天这个时候，我将在飞往巴黎的途中。"
+    ],
+    "pattern_type": "tense"
+  },
+  {
+    "surface_form": "Second Conditional",
+    "reading": null,
+    "meaning_zh": "第二条件句",
+    "meaning_en": "Second Conditional",
+    "proficiency_level": "5.5",
+    "explanation_zh": "用于表示与现在事实相反或不太可能实现的假设。结构：If + 一般过去时, would/could/might + 动词原形。",
+    "example_target": [
+      "If I had more money, I would travel around the world."
+    ],
+    "example_zh": [
+      "如果我有更多的钱，我就会环游世界。"
+    ],
+    "pattern_type": "conditional"
+  },
+  {
+    "surface_form": "Third Conditional",
+    "reading": null,
+    "meaning_zh": "第三条件句",
+    "meaning_en": "Third Conditional",
+    "proficiency_level": "5.5",
+    "explanation_zh": "用于表示与过去事实相反的假设，表达对过去的遗憾或推测。结构：If + 过去完成时, would/could/might have + 过去分词。",
+    "example_target": [
+      "If I had studied harder, I would have passed the exam."
+    ],
+    "example_zh": [
+      "如果我当时更努力学习，我就通过考试了。"
+    ],
+    "pattern_type": "conditional"
+  },
+  {
+    "surface_form": "Reported Speech (Statements)",
+    "reading": null,
+    "meaning_zh": "间接引语（陈述句）",
+    "meaning_en": "Reported Speech (Statements)",
+    "proficiency_level": "5.5",
+    "explanation_zh": "将直接引语转换为间接引语时，时态要相应后移（如现在时变为过去时），人称和时间状语也要做相应调整。常用said (that)...来引导。",
+    "example_target": [
+      "She said that she was tired."
+    ],
+    "example_zh": [
+      "她说她很累。"
+    ],
+    "pattern_type": "reported_speech"
+  },
+  {
+    "surface_form": "Reported Speech (Questions)",
+    "reading": null,
+    "meaning_zh": "间接引语（疑问句）",
+    "meaning_en": "Reported Speech (Questions)",
+    "proficiency_level": "5.5",
+    "explanation_zh": "转述问句时，语序变为陈述句语序，时态后移。一般疑问句用if/whether引导，特殊疑问句保留疑问词。",
+    "example_target": [
+      "He asked me where I lived.",
+      "She asked if I could help her."
+    ],
+    "example_zh": [
+      "他问我住在哪里。",
+      "她问我是否能帮她。"
+    ],
+    "pattern_type": "reported_speech"
+  },
+  {
+    "surface_form": "Relative Clauses (Defining)",
+    "reading": null,
+    "meaning_zh": "定语从句（限制性）",
+    "meaning_en": "Defining Relative Clauses",
+    "proficiency_level": "5.5",
+    "explanation_zh": "限制性定语从句对所修饰的名词起限定作用，去掉后句意不完整。关系代词有who, whom, which, that, whose。",
+    "example_target": [
+      "The man who lives next door is a doctor."
+    ],
+    "example_zh": [
+      "住在隔壁的那个人是医生。"
+    ],
+    "pattern_type": "clause"
+  },
+  {
+    "surface_form": "Relative Clauses (Non-defining)",
+    "reading": null,
+    "meaning_zh": "定语从句（非限制性）",
+    "meaning_en": "Non-defining Relative Clauses",
+    "proficiency_level": "5.5",
+    "explanation_zh": "非限制性定语从句对所修饰的名词起补充说明作用，去掉后句意仍然完整，用逗号与主句隔开。不能使用that引导。",
+    "example_target": [
+      "My sister, who lives in Tokyo, is a teacher."
+    ],
+    "example_zh": [
+      "我姐姐住在东京，她是一名老师。"
+    ],
+    "pattern_type": "clause"
+  },
+  {
+    "surface_form": "Gerunds as Subject/Object",
+    "reading": null,
+    "meaning_zh": "动名词作主语/宾语",
+    "meaning_en": "Gerunds as Subject/Object",
+    "proficiency_level": "5.5",
+    "explanation_zh": "动名词（动词-ing形式）可以作主语或宾语。某些动词后面只能接动名词，如enjoy, avoid, finish, mind, suggest。",
+    "example_target": [
+      "Swimming is good exercise.",
+      "I enjoy reading novels."
+    ],
+    "example_zh": [
+      "游泳是很好的运动。",
+      "我喜欢看小说。"
+    ],
+    "pattern_type": "gerund_infinitive"
+  },
+  {
+    "surface_form": "Infinitives after Verbs",
+    "reading": null,
+    "meaning_zh": "动词后接不定式",
+    "meaning_en": "Infinitives after Verbs",
+    "proficiency_level": "5.5",
+    "explanation_zh": "某些动词后面接不定式（to + 动词原形），如want, decide, hope, expect, plan, promise, agree, refuse。",
+    "example_target": [
+      "She decided to leave early.",
+      "They promised to help us."
+    ],
+    "example_zh": [
+      "她决定早点离开。",
+      "他们承诺会帮助我们。"
+    ],
+    "pattern_type": "gerund_infinitive"
+  },
+  {
+    "surface_form": "Gerund vs Infinitive (Meaning Change)",
+    "reading": null,
+    "meaning_zh": "动名词与不定式的意义区别",
+    "meaning_en": "Gerund vs Infinitive (Meaning Change)",
+    "proficiency_level": "5.5",
+    "explanation_zh": "某些动词（如stop, remember, forget, try）后接动名词和不定式时意义不同。stop doing表示停止做某事，stop to do表示停下来去做另一件事。",
+    "example_target": [
+      "He stopped smoking.",
+      "He stopped to smoke."
+    ],
+    "example_zh": [
+      "他戒烟了。",
+      "他停下来去抽烟。"
+    ],
+    "pattern_type": "gerund_infinitive"
+  },
+  {
+    "surface_form": "Modal Perfect: should have",
+    "reading": null,
+    "meaning_zh": "情态动词完成式：should have",
+    "meaning_en": "Modal Perfect: should have",
+    "proficiency_level": "5.5",
+    "explanation_zh": "表示过去本应该做而未做的事，含有责备或后悔的语气。结构：主语 + should have + 过去分词。否定形式shouldn't have表示本不应该做却做了。",
+    "example_target": [
+      "You should have told me earlier."
+    ],
+    "example_zh": [
+      "你本应该早点告诉我的。"
+    ],
+    "pattern_type": "modal"
+  },
+  {
+    "surface_form": "Modal Perfect: could have",
+    "reading": null,
+    "meaning_zh": "情态动词完成式：could have",
+    "meaning_en": "Modal Perfect: could have",
+    "proficiency_level": "5.5",
+    "explanation_zh": "表示过去本来能够做但未做的事情，或对过去事情的推测。结构：主语 + could have + 过去分词。",
+    "example_target": [
+      "I could have won the race, but I tripped."
+    ],
+    "example_zh": [
+      "我本来能赢得比赛的，但我摔倒了。"
+    ],
+    "pattern_type": "modal"
+  },
+  {
+    "surface_form": "Modal Perfect: must have / can't have",
+    "reading": null,
+    "meaning_zh": "情态动词完成式：must have / can't have",
+    "meaning_en": "Modal Perfect: must have / can't have",
+    "proficiency_level": "5.5",
+    "explanation_zh": "must have表示对过去事情的肯定推测（一定做了），can't have表示对过去事情的否定推测（不可能做了）。结构：主语 + must have/can't have + 过去分词。",
+    "example_target": [
+      "She must have forgotten about the meeting.",
+      "He can't have said that."
+    ],
+    "example_zh": [
+      "她一定是忘记了这个会议。",
+      "他不可能说过那样的话。"
+    ],
+    "pattern_type": "modal"
+  },
+  {
+    "surface_form": "Modal Perfect: would have",
+    "reading": null,
+    "meaning_zh": "情态动词完成式：would have",
+    "meaning_en": "Modal Perfect: would have",
+    "proficiency_level": "5.5",
+    "explanation_zh": "表示过去本来会做但未做的事情，常用于第三条件句的主句。结构：主语 + would have + 过去分词。",
+    "example_target": [
+      "I would have called you, but my phone was dead."
+    ],
+    "example_zh": [
+      "我本来会给你打电话的，但我的手机没电了。"
+    ],
+    "pattern_type": "modal"
+  },
+  {
+    "surface_form": "Wish + Past Simple (Present Regret)",
+    "reading": null,
+    "meaning_zh": "wish + 过去式（对现在的愿望）",
+    "meaning_en": "Wish + Past Simple (Present Regret)",
+    "proficiency_level": "5.5",
+    "explanation_zh": "wish后接过去式表示与现在事实相反的愿望，表达对现状的不满或希望。be动词通常用were。",
+    "example_target": [
+      "I wish I were taller.",
+      "She wishes she had more free time."
+    ],
+    "example_zh": [
+      "我希望我更高一些。",
+      "她希望她有更多的空闲时间。"
+    ],
+    "pattern_type": "subjunctive"
+  },
+  {
+    "surface_form": "Wish + Past Perfect (Past Regret)",
+    "reading": null,
+    "meaning_zh": "wish + 过去完成时（对过去的遗憾）",
+    "meaning_en": "Wish + Past Perfect (Past Regret)",
+    "proficiency_level": "5.5",
+    "explanation_zh": "wish后接过去完成时表示对过去事情的后悔或遗憾，与过去事实相反。",
+    "example_target": [
+      "I wish I had studied medicine at university."
+    ],
+    "example_zh": [
+      "我希望我大学时学了医。"
+    ],
+    "pattern_type": "subjunctive"
+  },
+  {
+    "surface_form": "Passive Voice (Perfect Tenses)",
+    "reading": null,
+    "meaning_zh": "被动语态（完成时态）",
+    "meaning_en": "Passive Voice (Perfect Tenses)",
+    "proficiency_level": "5.5",
+    "explanation_zh": "完成时的被动语态，强调动作已完成且主语是动作的承受者。结构：主语 + have/has/had been + 过去分词。",
+    "example_target": [
+      "The project has been completed ahead of schedule."
+    ],
+    "example_zh": [
+      "这个项目已经提前完成了。"
+    ],
+    "pattern_type": "passive"
+  },
+  {
+    "surface_form": "Passive Voice (Modal Verbs)",
+    "reading": null,
+    "meaning_zh": "被动语态（情态动词）",
+    "meaning_en": "Passive Voice (Modal Verbs)",
+    "proficiency_level": "5.5",
+    "explanation_zh": "情态动词的被动形式，用于表达被动意义中的可能性、义务等。结构：主语 + 情态动词 + be + 过去分词。",
+    "example_target": [
+      "This work must be finished by Friday.",
+      "The rules should be followed."
+    ],
+    "example_zh": [
+      "这项工作必须在周五前完成。",
+      "这些规则应该被遵守。"
+    ],
+    "pattern_type": "passive"
+  },
+  {
+    "surface_form": "Participle Clauses",
+    "reading": null,
+    "meaning_zh": "分词从句",
+    "meaning_en": "Participle Clauses",
+    "proficiency_level": "5.5",
+    "explanation_zh": "用现在分词（-ing）或过去分词（-ed）来简化从句，使句子更简洁。现在分词表示主动意义，过去分词表示被动意义。",
+    "example_target": [
+      "Walking down the street, I saw an old friend.",
+      "Built in 1900, the house is over a century old."
+    ],
+    "example_zh": [
+      "走在街上时，我看到了一位老朋友。",
+      "这栋房子建于1900年，已有一百多年历史。"
+    ],
+    "pattern_type": "clause"
+  },
+  {
+    "surface_form": "Conditional with unless",
+    "reading": null,
+    "meaning_zh": "unless条件句",
+    "meaning_en": "Conditional with unless",
+    "proficiency_level": "5.5",
+    "explanation_zh": "unless意为除非、如果不，相当于if...not。结构：Unless + 一般现在时, 主句。主句常用将来时。",
+    "example_target": [
+      "Unless you hurry, you will miss the train."
+    ],
+    "example_zh": [
+      "除非你快点，否则你会错过火车。"
+    ],
+    "pattern_type": "conditional"
+  },
+  {
+    "surface_form": "Contrast Connectors (although, despite, however)",
+    "reading": null,
+    "meaning_zh": "转折连接词",
+    "meaning_en": "Contrast Connectors (although, despite, however)",
+    "proficiency_level": "5.5",
+    "explanation_zh": "although/even though后接从句，despite/in spite of后接名词或动名词，however用于句首或句中用逗号隔开，表示转折关系。",
+    "example_target": [
+      "Although it was raining, we went for a walk.",
+      "Despite the traffic, we arrived on time."
+    ],
+    "example_zh": [
+      "虽然在下雨，我们还是出去散步了。",
+      "尽管交通拥堵，我们还是准时到了。"
+    ],
+    "pattern_type": "conjunction"
+  },
+  {
+    "surface_form": "Too / Enough",
+    "reading": null,
+    "meaning_zh": "too / enough 用法",
+    "meaning_en": "Too / Enough Patterns",
+    "proficiency_level": "5.5",
+    "explanation_zh": "too表示太…以至于不能…，结构：too + 形容词/副词 + to + 动词原形。enough表示足够…可以…，结构：形容词/副词 + enough + to + 动词原形。",
+    "example_target": [
+      "The coffee is too hot to drink.",
+      "She is old enough to drive."
+    ],
+    "example_zh": [
+      "咖啡太热了，没法喝。",
+      "她够大了，可以开车了。"
+    ],
+    "pattern_type": "adverb"
+  },
+  {
+    "surface_form": "Relative Adverbs (where, when, why)",
+    "reading": null,
+    "meaning_zh": "关系副词 where, when, why",
+    "meaning_en": "Relative Adverbs (where, when, why)",
+    "proficiency_level": "5.5",
+    "explanation_zh": "where修饰表示地点的名词，when修饰表示时间的名词，why修饰reason。可分别替换为in/at which, at/on which, for which。",
+    "example_target": [
+      "This is the city where I was born.",
+      "That's the reason why I left."
+    ],
+    "example_zh": [
+      "这就是我出生的城市。",
+      "这就是我离开的原因。"
+    ],
+    "pattern_type": "clause"
+  },
+  {
+    "surface_form": "So...that / Such...that",
+    "reading": null,
+    "meaning_zh": "so...that / such...that 句型",
+    "meaning_en": "So...that / Such...that Result Clauses",
+    "proficiency_level": "5.5",
+    "explanation_zh": "so + 形容词/副词 + that...表示如此…以至于…。such + a/an + 形容词 + 名词 + that...表示如此…的一个…以至于…。",
+    "example_target": [
+      "The movie was so boring that I fell asleep.",
+      "It was such a hot day that we stayed indoors."
+    ],
+    "example_zh": [
+      "电影太无聊了，我睡着了。",
+      "天气太热了，我们待在室内。"
+    ],
+    "pattern_type": "clause"
+  },
+  {
+    "surface_form": "Either...or / Neither...nor / Both...and",
+    "reading": null,
+    "meaning_zh": "并列连词对",
+    "meaning_en": "Correlative Conjunctions",
+    "proficiency_level": "5.5",
+    "explanation_zh": "either...or表示要么…要么…，neither...nor表示既不…也不…，both...and表示两者都…。连接两个并列成分。",
+    "example_target": [
+      "Either you come with us or you stay home.",
+      "Neither Tom nor Jerry was at the party."
+    ],
+    "example_zh": [
+      "要么你跟我们走，要么你待在家里。",
+      "汤姆和杰瑞都没在聚会上。"
+    ],
+    "pattern_type": "conjunction"
+  },
+  {
+    "surface_form": "Make / Let / Allow (Causative Basic)",
+    "reading": null,
+    "meaning_zh": "使役动词（基础）",
+    "meaning_en": "Causative Verbs (Basic): make / let / allow",
+    "proficiency_level": "5.5",
+    "explanation_zh": "make + 宾语 + 动词原形表示迫使；let + 宾语 + 动词原形表示允许；allow + 宾语 + to + 动词原形表示允许。",
+    "example_target": [
+      "The teacher made us rewrite the essay.",
+      "She let me borrow her car."
+    ],
+    "example_zh": [
+      "老师让我们重写了作文。",
+      "她让我借用了她的车。"
+    ],
+    "pattern_type": "verb_pattern"
+  },
+  {
+    "surface_form": "Mixed Conditionals (Past condition, Present result)",
+    "reading": null,
+    "meaning_zh": "混合条件句（过去条件，现在结果）",
+    "meaning_en": "Mixed Conditionals (Past condition, Present result)",
+    "proficiency_level": "6.5",
+    "explanation_zh": "将第三条件句和第二条件句混合，if从句用过去完成时（过去条件），主句用would + 动词原形（现在结果）。用于表达过去的假设对现在的影响。",
+    "example_target": [
+      "If I had studied medicine, I would be a doctor now."
+    ],
+    "example_zh": [
+      "如果我当初学了医，我现在就是医生了。"
+    ],
+    "pattern_type": "conditional"
+  },
+  {
+    "surface_form": "Mixed Conditionals (Present condition, Past result)",
+    "reading": null,
+    "meaning_zh": "混合条件句（现在条件，过去结果）",
+    "meaning_en": "Mixed Conditionals (Present condition, Past result)",
+    "proficiency_level": "6.5",
+    "explanation_zh": "if从句用一般过去时（现在条件），主句用would have + 过去分词（过去结果）。用于表达现在的状况对过去的影响。",
+    "example_target": [
+      "If I were braver, I would have spoken up at the meeting."
+    ],
+    "example_zh": [
+      "如果我更勇敢一些，我当初就会在会议上发言了。"
+    ],
+    "pattern_type": "conditional"
+  },
+  {
+    "surface_form": "Inversion after Negative Adverbs",
+    "reading": null,
+    "meaning_zh": "否定副词后的倒装",
+    "meaning_en": "Inversion after Negative Adverbs",
+    "proficiency_level": "6.5",
+    "explanation_zh": "当never, rarely, seldom, hardly, not only等否定副词放在句首时，句子要部分倒装（将助动词或情态动词放在主语前）。用于强调和修辞效果。",
+    "example_target": [
+      "Never have I seen such a beautiful sunset.",
+      "Not only did she win, but she also broke the record."
+    ],
+    "example_zh": [
+      "我从未见过如此美丽的日落。",
+      "她不仅赢了，而且还打破了纪录。"
+    ],
+    "pattern_type": "inversion"
+  },
+  {
+    "surface_form": "Inversion with Only",
+    "reading": null,
+    "meaning_zh": "Only引导的倒装句",
+    "meaning_en": "Inversion with Only",
+    "proficiency_level": "6.5",
+    "explanation_zh": "当only + 状语（时间/条件/方式）放在句首时，主句要倒装。常见形式：Only when/after/if/by + 状语, 助动词 + 主语 + 动词。",
+    "example_target": [
+      "Only after the accident did he realize the danger."
+    ],
+    "example_zh": [
+      "只有在事故之后他才意识到危险。"
+    ],
+    "pattern_type": "inversion"
+  },
+  {
+    "surface_form": "Inversion with So / Such",
+    "reading": null,
+    "meaning_zh": "So/Such引导的倒装句",
+    "meaning_en": "Inversion with So / Such",
+    "proficiency_level": "6.5",
+    "explanation_zh": "当so + 形容词或such放在句首时表示强调，句子要倒装。结构：So + 形容词 + be + 主语 + that... 或 Such + be + 名词 + that...",
+    "example_target": [
+      "So tired was she that she fell asleep immediately.",
+      "Such was his anger that he could hardly speak."
+    ],
+    "example_zh": [
+      "她太累了，马上就睡着了。",
+      "他太愤怒了，几乎说不出话来。"
+    ],
+    "pattern_type": "inversion"
+  },
+  {
+    "surface_form": "Cleft Sentences (It is/was...that)",
+    "reading": null,
+    "meaning_zh": "强调句型（It is/was...that）",
+    "meaning_en": "Cleft Sentences (It is/was...that)",
+    "proficiency_level": "6.5",
+    "explanation_zh": "用It is/was + 被强调部分 + that/who + 其余部分来强调句子中的某个成分（主语、宾语或状语）。",
+    "example_target": [
+      "It was John who broke the vase.",
+      "It is education that makes the difference."
+    ],
+    "example_zh": [
+      "是约翰打碎了花瓶。",
+      "正是教育造成了差异。"
+    ],
+    "pattern_type": "cleft"
+  },
+  {
+    "surface_form": "Wh-Cleft Sentences",
+    "reading": null,
+    "meaning_zh": "wh-强调句",
+    "meaning_en": "Wh-Cleft Sentences",
+    "proficiency_level": "6.5",
+    "explanation_zh": "用What从句来强调信息，结构：What + 从句 + is/was + 被强调部分。或反过来：被强调部分 + is/was + what + 从句。",
+    "example_target": [
+      "What I need is a good night's sleep.",
+      "What happened was that the alarm didn't go off."
+    ],
+    "example_zh": [
+      "我需要的是一夜好觉。",
+      "发生的情况是闹钟没有响。"
+    ],
+    "pattern_type": "cleft"
+  },
+  {
+    "surface_form": "Subjunctive in Formal Contexts",
+    "reading": null,
+    "meaning_zh": "正式语境中的虚拟语气",
+    "meaning_en": "Subjunctive in Formal Contexts",
+    "proficiency_level": "6.5",
+    "explanation_zh": "在suggest, recommend, insist, demand等动词后的that从句中，谓语动词用原形（美式英语）。英式英语中常用should + 动词原形。",
+    "example_target": [
+      "The committee recommended that the policy be changed.",
+      "I insist that he apologize."
+    ],
+    "example_zh": [
+      "委员会建议修改政策。",
+      "我坚持要求他道歉。"
+    ],
+    "pattern_type": "subjunctive"
+  },
+  {
+    "surface_form": "Subjunctive: If I were",
+    "reading": null,
+    "meaning_zh": "虚拟语气：If I were",
+    "meaning_en": "Subjunctive: If I were",
+    "proficiency_level": "6.5",
+    "explanation_zh": "在正式英语中，与现在事实相反的条件句中be动词统一用were，不用was。常见于If I were you等固定表达。",
+    "example_target": [
+      "If I were you, I would accept the offer."
+    ],
+    "example_zh": [
+      "如果我是你，我会接受这个提议。"
+    ],
+    "pattern_type": "subjunctive"
+  },
+  {
+    "surface_form": "Get Passive",
+    "reading": null,
+    "meaning_zh": "get被动句",
+    "meaning_en": "Get Passive",
+    "proficiency_level": "6.5",
+    "explanation_zh": "用get代替be构成被动语态，更口语化，常用于描述意外或不好的事情。结构：主语 + get + 过去分词。",
+    "example_target": [
+      "He got fired for being late.",
+      "My car got stolen last night."
+    ],
+    "example_zh": [
+      "他因为迟到被解雇了。",
+      "我的车昨晚被偷了。"
+    ],
+    "pattern_type": "passive"
+  },
+  {
+    "surface_form": "Causative: have/get something done",
+    "reading": null,
+    "meaning_zh": "使役结构：have/get something done",
+    "meaning_en": "Causative: have/get something done",
+    "proficiency_level": "6.5",
+    "explanation_zh": "表示让别人为你做某事，而非自己做。结构：主语 + have/get + 宾语 + 过去分词。have更正式，get更口语化。",
+    "example_target": [
+      "I had my hair cut yesterday.",
+      "We need to get the car repaired."
+    ],
+    "example_zh": [
+      "我昨天理了发（让别人理的）。",
+      "我们需要把车修一下。"
+    ],
+    "pattern_type": "passive"
+  },
+  {
+    "surface_form": "Causative: have someone do",
+    "reading": null,
+    "meaning_zh": "使役结构：have someone do",
+    "meaning_en": "Causative: have someone do",
+    "proficiency_level": "6.5",
+    "explanation_zh": "表示让某人做某事，侧重于指派或安排。结构：主语 + have + 人 + 动词原形 + 宾语。",
+    "example_target": [
+      "I'll have my assistant send you the documents."
+    ],
+    "example_zh": [
+      "我会让我的助手把文件发给你。"
+    ],
+    "pattern_type": "verb_pattern"
+  },
+  {
+    "surface_form": "Nominalization",
+    "reading": null,
+    "meaning_zh": "名词化",
+    "meaning_en": "Nominalization",
+    "proficiency_level": "6.5",
+    "explanation_zh": "将动词或形容词转化为名词，使表达更正式和学术化。常见后缀：-tion, -ment, -ness, -ity, -ance, -ence。常用于学术写作中。",
+    "example_target": [
+      "The implementation of the policy was successful.",
+      "His refusal to cooperate surprised everyone."
+    ],
+    "example_zh": [
+      "该政策的实施很成功。",
+      "他拒绝合作令所有人感到惊讶。"
+    ],
+    "pattern_type": "noun"
+  },
+  {
+    "surface_form": "Hedging Language",
+    "reading": null,
+    "meaning_zh": "委婉表达 / 模糊语言",
+    "meaning_en": "Hedging Language",
+    "proficiency_level": "6.5",
+    "explanation_zh": "用tend to, seem to, appear to, might, could, it seems that, it is likely that等表达来缓和语气，使论断不那么绝对，在学术写作中尤为重要。",
+    "example_target": [
+      "This approach tends to be more effective.",
+      "It could be argued that the policy has failed."
+    ],
+    "example_zh": [
+      "这种方法往往更有效。",
+      "可以说这项政策已经失败了。"
+    ],
+    "pattern_type": "hedging"
+  },
+  {
+    "surface_form": "Advanced Passive: It is said/believed that",
+    "reading": null,
+    "meaning_zh": "高级被动：It is said/believed that",
+    "meaning_en": "Advanced Passive: It is said/believed that",
+    "proficiency_level": "6.5",
+    "explanation_zh": "用于表达传闻或普遍看法，避免指出具体信息来源。结构：It is said/believed/thought/reported that + 从句。也可转换为：主语 + be said/believed + to + 动词。",
+    "example_target": [
+      "It is believed that the ancient temple was built in 500 BC.",
+      "He is said to be the richest man in the country."
+    ],
+    "example_zh": [
+      "人们认为这座古庙建于公元前500年。",
+      "据说他是该国最富有的人。"
+    ],
+    "pattern_type": "passive"
+  },
+  {
+    "surface_form": "Inversion in Conditionals (Had / Were / Should)",
+    "reading": null,
+    "meaning_zh": "条件句中的倒装（省略if）",
+    "meaning_en": "Inversion in Conditionals (Had / Were / Should)",
+    "proficiency_level": "6.5",
+    "explanation_zh": "在正式英语中，可以省略if并将had, were或should放在主语前面来构成条件句。Had I known = If I had known。",
+    "example_target": [
+      "Had I known about the problem, I would have helped.",
+      "Were she to ask, I would agree."
+    ],
+    "example_zh": [
+      "如果我早知道这个问题，我就会帮忙了。",
+      "如果她开口问，我会同意的。"
+    ],
+    "pattern_type": "inversion"
+  },
+  {
+    "surface_form": "Fronting for Emphasis",
+    "reading": null,
+    "meaning_zh": "前置强调",
+    "meaning_en": "Fronting for Emphasis",
+    "proficiency_level": "6.5",
+    "explanation_zh": "将句子中需要强调的部分（宾语、状语等）移到句首，以突出其重要性。常见于书面语和演讲中。",
+    "example_target": [
+      "That kind of behavior I simply cannot tolerate.",
+      "Around the corner stood a policeman."
+    ],
+    "example_zh": [
+      "那种行为我简直无法容忍。",
+      "拐角处站着一个警察。"
+    ],
+    "pattern_type": "sentence_pattern"
+  },
+  {
+    "surface_form": "Concessive Clauses (Advanced)",
+    "reading": null,
+    "meaning_zh": "让步从句（高级）",
+    "meaning_en": "Concessive Clauses (Advanced)",
+    "proficiency_level": "6.5",
+    "explanation_zh": "用no matter how/what/who, whatever, whoever, however + 形容词/副词来引导让步从句，表达无论什么情况都成立的意思。",
+    "example_target": [
+      "No matter how hard he tried, he couldn't solve the problem.",
+      "Whatever you decide, I'll support you."
+    ],
+    "example_zh": [
+      "无论他多努力，都无法解决这个问题。",
+      "无论你做什么决定，我都会支持你。"
+    ],
+    "pattern_type": "clause"
+  },
+  {
+    "surface_form": "Reduced Relative Clauses",
+    "reading": null,
+    "meaning_zh": "简化定语从句",
+    "meaning_en": "Reduced Relative Clauses",
+    "proficiency_level": "6.5",
+    "explanation_zh": "省略定语从句中的关系代词和be动词，用分词短语代替。主动意义用现在分词，被动意义用过去分词。使句子更简洁。",
+    "example_target": [
+      "The students studying in the library are preparing for exams.",
+      "The house built in 1920 was demolished."
+    ],
+    "example_zh": [
+      "在图书馆学习的学生们正在准备考试。",
+      "建于1920年的那栋房子被拆除了。"
+    ],
+    "pattern_type": "clause"
+  },
+  {
+    "surface_form": "Discourse Markers (Advanced)",
+    "reading": null,
+    "meaning_zh": "高级语篇标记词",
+    "meaning_en": "Discourse Markers (Advanced)",
+    "proficiency_level": "6.5",
+    "explanation_zh": "使用furthermore, moreover, nevertheless, notwithstanding, insofar as, conversely等高级连接词来组织论述，使文章更有逻辑性和学术性。",
+    "example_target": [
+      "Furthermore, the results suggest a strong correlation.",
+      "Nevertheless, the argument remains controversial."
+    ],
+    "example_zh": [
+      "此外，研究结果表明两者有很强的相关性。",
+      "然而，这一论点仍有争议。"
+    ],
+    "pattern_type": "conjunction"
+  },
+  {
+    "surface_form": "Ellipsis in Clauses",
+    "reading": null,
+    "meaning_zh": "从句中的省略",
+    "meaning_en": "Ellipsis in Clauses",
+    "proficiency_level": "6.5",
+    "explanation_zh": "在并列句或从句中，为了避免重复，可以省略与前文相同的成分。常见于比较从句、状语从句和并列句中。",
+    "example_target": [
+      "She can play the piano better than I can.",
+      "When heated, water turns into steam."
+    ],
+    "example_zh": [
+      "她弹钢琴比我弹得好。",
+      "水被加热后会变成蒸汽。"
+    ],
+    "pattern_type": "clause"
+  },
+  {
+    "surface_form": "Subjunctive: as if / as though",
+    "reading": null,
+    "meaning_zh": "虚拟语气：as if / as though",
+    "meaning_en": "Subjunctive: as if / as though",
+    "proficiency_level": "6.5",
+    "explanation_zh": "as if/as though后接过去式表示与现在事实不符的比较，接过去完成时表示与过去事实不符的比较。",
+    "example_target": [
+      "He talks as if he knew everything.",
+      "She looked as though she had been crying."
+    ],
+    "example_zh": [
+      "他说话好像他什么都知道似的。",
+      "她看起来好像哭过。"
+    ],
+    "pattern_type": "subjunctive"
+  }
+]

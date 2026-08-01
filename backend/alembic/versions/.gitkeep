@@ -1,0 +1,2 @@
+# This file is kept as a placeholder for the alembic versions directory.
+# Run `alembic revision --autogenerate -m "initial schema"` to create migrations.

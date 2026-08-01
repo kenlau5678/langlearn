@@ -1,0 +1,7 @@
+# Reference data files for JLPT and IELTS
+# Download and place here:
+# - jlpt_vocab_n5.json, jlpt_vocab_n4.json, jlpt_vocab_n3.json
+# - kanjidic2.xml
+# - grammar_patterns.json
+# - ielts_vocabulary.json
+# See plan Section 9 for data sources.
