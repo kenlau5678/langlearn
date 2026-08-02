@@ -25,7 +25,7 @@ async def _upsert_knowledge_point(
     target_language: str = "ja",
     level_system: str = "jlpt",
 ) -> KnowledgePoint:
-    """Insert or update a knowledge point, skipping if surface_form + level already exists."""
+    """Insert or update a knowledge point by surface form, level, language, and type."""
     stmt = select(KnowledgePoint).where(
         KnowledgePoint.surface_form == data["surface_form"],
         KnowledgePoint.proficiency_level == data.get("proficiency_level", "N5"),
@@ -37,6 +37,20 @@ async def _upsert_knowledge_point(
     existing = result.scalar_one_or_none()
 
     if existing:
+        field_map = {
+            "reading": "reading",
+            "pronunciation": "pronunciation",
+            "meaning_zh": "meaning_zh",
+            "meaning_en": "meaning_en",
+            "pos": "pos",
+            "explanation_zh": "explanation_zh",
+            "example_target": "example_target",
+            "example_zh": "example_zh",
+            "metadata": "metadata_",
+        }
+        for source, target in field_map.items():
+            if source in data:
+                setattr(existing, target, data[source])
         return existing
 
     kp = KnowledgePoint(
