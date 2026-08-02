@@ -1,18 +1,20 @@
 "use client";
 
 import { progressAPI, ReviewCard } from "@/lib/api";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { IELTS_VOCAB, IeltsWord } from "@/lib/ielts-vocab";
 import { CheckCircle2, XCircle, Loader2, RotateCcw, ChevronRight } from "lucide-react";
 
 // ── SRS review types ──────────────────────────────────────────────────────
 interface SessionStats { correct: number; wrong: number; total: number }
 
+const FORGOTTEN_VOCAB_KEY = "langlearn:forgotten-vocab";
+
 // ── Main component ────────────────────────────────────────────────────────
 export default function ReviewPage() {
   const [srsCards, setSrsCards] = useState<ReviewCard[]>([]);
   const [loading, setLoading] = useState(true);
-  const [mode, setMode] = useState<"idle" | "srs" | "vocab">("idle");
+  const [mode, setMode] = useState<"idle" | "srs" | "vocab" | "missed">("idle");
 
   // vocab browse state
   const [vocabIdx, setVocabIdx] = useState(0);
@@ -25,6 +27,7 @@ export default function ReviewPage() {
   const [stats, setStats] = useState<SessionStats>({ correct: 0, wrong: 0, total: 0 });
   const [srsDone, setSrsDone] = useState(false);
   const [startTime, setStartTime] = useState(0);
+  const [forgottenWords, setForgottenWords] = useState<string[]>([]);
 
   const fetchSrs = useCallback(async () => {
     setLoading(true);
@@ -38,8 +41,60 @@ export default function ReviewPage() {
 
   useEffect(() => { fetchSrs(); }, [fetchSrs]);
 
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(FORGOTTEN_VOCAB_KEY) || "[]");
+      if (Array.isArray(saved)) setForgottenWords(saved.filter((w) => typeof w === "string"));
+    } catch {
+      setForgottenWords([]);
+    }
+  }, []);
+
   // ── All vocab (no filters) ──
-  const filteredVocab = IELTS_VOCAB;
+  const forgottenSet = useMemo(() => new Set(forgottenWords), [forgottenWords]);
+  const forgottenVocab = useMemo(
+    () => IELTS_VOCAB.filter((word) => forgottenSet.has(word.word)),
+    [forgottenSet]
+  );
+  const filteredVocab = mode === "missed" ? forgottenVocab : IELTS_VOCAB;
+
+  const saveForgottenWords = useCallback((words: string[]) => {
+    const next = Array.from(new Set(words));
+    setForgottenWords(next);
+    localStorage.setItem(FORGOTTEN_VOCAB_KEY, JSON.stringify(next));
+  }, []);
+
+  const leaveVocabMode = () => {
+    setMode("idle");
+    setVocabIdx(0);
+    setFlipped(false);
+  };
+
+  const advanceVocab = (total: number) => {
+    setFlipped(false);
+    if (vocabIdx + 1 < total) setVocabIdx((i) => i + 1);
+    else leaveVocabMode();
+  };
+
+  const markForgotten = (word: IeltsWord, total: number) => {
+    saveForgottenWords([...forgottenWords, word.word]);
+    advanceVocab(total);
+  };
+
+  const markRemembered = (word: IeltsWord, total: number) => {
+    const nextForgotten = forgottenWords.filter((w) => w !== word.word);
+    saveForgottenWords(nextForgotten);
+    setFlipped(false);
+
+    if (mode !== "missed") {
+      advanceVocab(total);
+      return;
+    }
+
+    const nextTotal = total - 1;
+    if (nextTotal <= 0) leaveVocabMode();
+    else if (vocabIdx >= nextTotal) setVocabIdx(nextTotal - 1);
+  };
 
   // ── SRS handlers ──
   const currentSrs = srsCards[srsIdx];
@@ -177,12 +232,14 @@ export default function ReviewPage() {
   }
 
   // ── Vocab study mode ──
-  if (mode === "vocab") {
+  if (mode === "vocab" || mode === "missed") {
     if (filteredVocab.length === 0) {
       return (
         <div>
-          <button onClick={() => setMode("idle")} style={backBtnStyle}>← 返回</button>
-          <p style={{ color: "#9ca3af", marginTop: 24 }}>该筛选条件下没有词汇。</p>
+          <button onClick={leaveVocabMode} style={backBtnStyle}>← 返回</button>
+          <p style={{ color: "#9ca3af", marginTop: 24 }}>
+            {mode === "missed" ? "暂时没有需要复习的词。" : "该筛选条件下没有词汇。"}
+          </p>
         </div>
       );
     }
@@ -192,11 +249,11 @@ export default function ReviewPage() {
 
     return (
       <div>
-        <button onClick={() => { setMode("idle"); setVocabIdx(0); setFlipped(false); }} style={backBtnStyle}>← 返回</button>
+        <button onClick={leaveVocabMode} style={backBtnStyle}>← 返回</button>
 
         {/* Progress */}
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8125rem", color: "#9ca3af", marginBottom: 6 }}>
-          <span>{vocabIdx + 1} / {total}</span>
+          <span>{mode === "missed" ? "复习" : "学习"} · {vocabIdx + 1} / {total}</span>
           <span style={{ background: "#f0fdf4", color: "#16a34a", padding: "2px 8px", borderRadius: 999, fontWeight: 600, fontSize: "0.75rem" }}>
             {word.category}
           </span>
@@ -221,17 +278,16 @@ export default function ReviewPage() {
         {flipped && (
           <div style={{ marginTop: 20, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
             <button
-              onClick={() => { if (vocabIdx > 0) { setVocabIdx((i) => i - 1); setFlipped(false); } }}
-              disabled={vocabIdx === 0}
-              style={{ padding: "12px 0", borderRadius: 12, border: "1px solid #e5e7eb", background: "#fff", color: "#6b7280", fontWeight: 600, fontSize: "0.9375rem", cursor: vocabIdx === 0 ? "default" : "pointer", opacity: vocabIdx === 0 ? 0.4 : 1 }}
+              onClick={() => markForgotten(word, total)}
+              style={{ padding: "12px 0", borderRadius: 12, border: "1px solid #fecaca", background: "#fff", color: "#dc2626", fontWeight: 700, fontSize: "0.9375rem", cursor: "pointer" }}
             >
-              ← 上一个
+              不记得
             </button>
             <button
-              onClick={() => { if (vocabIdx + 1 < total) { setVocabIdx((i) => i + 1); setFlipped(false); } else { setMode("idle"); } }}
+              onClick={() => markRemembered(word, total)}
               style={{ padding: "12px 0", borderRadius: 12, border: "none", background: "#16a34a", color: "#fff", fontWeight: 600, fontSize: "0.9375rem", cursor: "pointer" }}
             >
-              {vocabIdx + 1 < total ? "下一个 →" : "完成 ✓"}
+              记得
             </button>
           </div>
         )}
@@ -265,6 +321,28 @@ export default function ReviewPage() {
               </div>
               <div style={{ fontSize: "0.8125rem", color: "#6b7280", marginTop: 2 }}>
                 现在复习效果最好
+              </div>
+            </div>
+            <ChevronRight size={18} color="#16a34a" />
+          </button>
+        )}
+
+        {forgottenWords.length > 0 && (
+          <button
+            onClick={() => { setVocabIdx(0); setFlipped(false); setMode("missed"); }}
+            style={{
+              width: "100%", padding: "20px 20px", borderRadius: 14,
+              border: "1px solid #bbf7d0", background: "#f0fdf4",
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              cursor: "pointer", textAlign: "left",
+            }}
+          >
+            <div>
+              <div style={{ fontSize: "1rem", fontWeight: 700, color: "#16a34a" }}>
+                复习不记得的词 · {forgottenWords.length} 词
+              </div>
+              <div style={{ fontSize: "0.8125rem", color: "#6b7280", marginTop: 2 }}>
+                先把薄弱词过一遍
               </div>
             </div>
             <ChevronRight size={18} color="#16a34a" />

@@ -139,9 +139,14 @@ export default function MaterialsPage() {
   const [genLevel, setGenLevel] = useState("7.0");
   const [askState, setAskState] = useState<AskState>({ isOpen: false, selectedText: "" });
   const [askPanelOpen, setAskPanelOpen] = useState(false);
+  const [savingGenerated, setSavingGenerated] = useState(false);
+  const [genSaveMessage, setGenSaveMessage] = useState("");
+  const [savingReading, setSavingReading] = useState(false);
+  const [readingSaveMessage, setReadingSaveMessage] = useState("");
 
   useEffect(() => {
     setAskPanelOpen(false);
+    setReadingSaveMessage("");
   }, [selectedPassage]);
 
   const fetchSaved = useCallback(async () => {
@@ -162,6 +167,7 @@ export default function MaterialsPage() {
   const generateAI = async () => {
     setGenerating(true);
     setGenContent("");
+    setGenSaveMessage("");
     try {
       await streamRequest(
         "/generate/lesson",
@@ -179,17 +185,55 @@ export default function MaterialsPage() {
   };
 
   const saveGenerated = async () => {
-    if (!genContent.trim()) return;
-    await materialsAPI.create({
-      title: `AI · Band ${genLevel} · ${new Date().toLocaleDateString("zh-CN")}`,
-      content_text: genContent,
-      target_language: "en",
-      source_type: "ai_generated",
-      proficiency_level: genLevel,
-      level_system: "ielts",
-    });
-    setGenContent("");
-    fetchSaved();
+    const content = genContent.trim();
+    if (!content || savingGenerated) return;
+
+    setSavingGenerated(true);
+    setGenSaveMessage("");
+    try {
+      const heading = content.match(/^#\s+(.+)$/m)?.[1]?.trim();
+      await materialsAPI.create({
+        title: heading || `AI · Band ${genLevel} · ${new Date().toLocaleDateString("zh-CN")}`,
+        content_text: content,
+        target_language: "en",
+        source_type: "ai_generated",
+        proficiency_level: genLevel,
+        level_system: "ielts",
+      });
+      setGenSaveMessage("已保存到文库");
+      fetchSaved();
+    } catch {
+      setGenSaveMessage("保存失败，请先确认已登录，后端数据库正常。");
+    } finally {
+      setSavingGenerated(false);
+    }
+  };
+
+  const saveCurrentPassage = async () => {
+    if (!selectedPassage || savingReading) return;
+    if (!("band" in selectedPassage)) {
+      setReadingSaveMessage("这篇已经在文库里。");
+      return;
+    }
+
+    setSavingReading(true);
+    setReadingSaveMessage("");
+    try {
+      await materialsAPI.create({
+        title: selectedPassage.title,
+        content_text: selectedPassage.content,
+        target_language: "en",
+        source_type: "ielts_reference",
+        proficiency_level: selectedPassage.band,
+        level_system: "ielts",
+      });
+      setReadingSaveMessage("已保存到文库");
+      fetchSaved();
+    } catch {
+      setReadingSaveMessage("保存失败，请先确认已登录，后端数据库正常。");
+    } finally {
+      setSavingReading(false);
+    }
   };
 
   const deleteSaved = async (id: string, e: React.MouseEvent) => {
@@ -245,18 +289,37 @@ export default function MaterialsPage() {
               <ArrowLeft size={14} />
               返回
             </button>
-            <span
-              style={{
-                fontSize: "0.75rem",
-                fontWeight: 600,
-                color: "#16a34a",
-                background: "#f0fdf4",
-                padding: "3px 10px",
-                borderRadius: 999,
-              }}
-            >
-              Band {band}
-            </span>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              {isIelts && (
+                <button
+                  onClick={saveCurrentPassage}
+                  disabled={savingReading}
+                  style={{
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    color: savingReading ? "#86efac" : "#16a34a",
+                    background: "none",
+                    border: "none",
+                    cursor: savingReading ? "default" : "pointer",
+                    padding: 0,
+                  }}
+                >
+                  {savingReading ? "保存中..." : "保存到文库"}
+                </button>
+              )}
+              <span
+                style={{
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  color: "#16a34a",
+                  background: "#f0fdf4",
+                  padding: "3px 10px",
+                  borderRadius: 999,
+                }}
+              >
+                Band {band}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -294,6 +357,11 @@ export default function MaterialsPage() {
             {source && (
               <p style={{ fontSize: "0.7rem", color: "#d1d5db", textAlign: "center" }}>
                 Source: {source}
+              </p>
+            )}
+            {readingSaveMessage && (
+              <p style={{ fontSize: "0.75rem", color: readingSaveMessage.startsWith("已") ? "#16a34a" : "#ef4444", textAlign: "center" }}>
+                {readingSaveMessage}
               </p>
             )}
           </div>
@@ -501,20 +569,26 @@ export default function MaterialsPage() {
               {!generating && genContent && (
                 <button
                   onClick={saveGenerated}
+                  disabled={savingGenerated}
                   style={{
                     fontSize: "0.8125rem",
-                    color: "#16a34a",
+                    color: savingGenerated ? "#86efac" : "#16a34a",
                     fontWeight: 600,
                     background: "none",
                     border: "none",
-                    cursor: "pointer",
+                    cursor: savingGenerated ? "default" : "pointer",
                     padding: 0,
                   }}
                 >
-                  保存到文库
+                  {savingGenerated ? "保存中..." : "保存到文库"}
                 </button>
               )}
             </div>
+            {genSaveMessage && (
+              <p style={{ fontSize: "0.8125rem", color: genSaveMessage.startsWith("已") ? "#16a34a" : "#ef4444", marginBottom: 16 }}>
+                {genSaveMessage}
+              </p>
+            )}
             <ArticleBody
               content={genContent + (generating ? "▍" : "")}
               onWordClick={handleWordClick}
