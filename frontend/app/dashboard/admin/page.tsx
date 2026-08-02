@@ -66,7 +66,7 @@ export default function AdminPage() {
     {
       key: "en-vocab",
       label: "导入英语词汇",
-      description: "导入IELTS Band 4.0-7.0词汇数据",
+      description: "导入IELTS CEFR B2-C2（Band 6.5-8.5）词汇数据",
       fn: () => adminAPI.ingestVocabulary("en"),
     },
     {
