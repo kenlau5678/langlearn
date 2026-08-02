@@ -27,3 +27,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Words CEFR Dataset
+
+The CEFR estimates in the IELTS vocabulary data are adapted from
+[Words CEFR Dataset](https://github.com/Maximax67/Words-CEFR-Dataset).
+
+MIT License
+
+Copyright (c) 2024 Belikov Maxim
+
+This dataset is used under the MIT License terms reproduced above.

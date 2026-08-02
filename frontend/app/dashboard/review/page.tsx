@@ -11,6 +11,8 @@ interface SessionStats { correct: number; wrong: number; total: number }
 const FORGOTTEN_VOCAB_KEY = "langlearn:forgotten-vocab";
 const PLACEHOLDER_MEANING_PREFIX = "待补充释义：";
 const GENERIC_CORPUS_MEANING = "IELTS reading vocabulary from the built-in article corpus";
+const CEFR_LEVELS = ["B2", "C1", "C2"] as const;
+const IELTS_TOPICS = Array.from(new Set(IELTS_VOCAB.map((word) => word.topic))).sort();
 
 function displayMeaningZh(word: string, meaning?: string | null) {
   if (!meaning || meaning.startsWith(PLACEHOLDER_MEANING_PREFIX)) {
@@ -45,6 +47,8 @@ export default function ReviewPage() {
   const [vocabIdx, setVocabIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [studyDeck, setStudyDeck] = useState<IeltsWord[]>([]);
+  const [cefrFilter, setCefrFilter] = useState<"all" | IeltsWord["cefr"]>("all");
+  const [topicFilter, setTopicFilter] = useState("all");
 
   // srs state
   const [srsIdx, setSrsIdx] = useState(0);
@@ -82,6 +86,13 @@ export default function ReviewPage() {
     () => IELTS_VOCAB.filter((word) => forgottenSet.has(word.word)),
     [forgottenSet]
   );
+  const selectedVocab = useMemo(
+    () => IELTS_VOCAB.filter((word) =>
+      (cefrFilter === "all" || word.cefr === cefrFilter)
+      && (topicFilter === "all" || word.topic === topicFilter)
+    ),
+    [cefrFilter, topicFilter]
+  );
   const filteredVocab = studyDeck;
 
   const saveForgottenWords = useCallback((words: string[]) => {
@@ -98,7 +109,7 @@ export default function ReviewPage() {
   };
 
   const startVocabMode = (nextMode: "vocab" | "missed") => {
-    const words = nextMode === "missed" ? forgottenVocab : IELTS_VOCAB;
+    const words = nextMode === "missed" ? forgottenVocab : selectedVocab;
     setStudyDeck(shuffleWords(words));
     setVocabIdx(0);
     setFlipped(false);
@@ -290,7 +301,7 @@ export default function ReviewPage() {
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8125rem", color: "#9ca3af", marginBottom: 6 }}>
           <span>{mode === "missed" ? "复习" : "学习"} · {vocabIdx + 1} / {total}</span>
           <span style={{ background: "#f0fdf4", color: "#16a34a", padding: "2px 8px", borderRadius: 999, fontWeight: 600, fontSize: "0.75rem" }}>
-            {word.category}
+            {word.topic}
           </span>
         </div>
         <div style={{ height: 4, background: "#f3f4f6", borderRadius: 4, marginBottom: 20 }}>
@@ -306,6 +317,9 @@ export default function ReviewPage() {
           example={word.example}
           example_zh={word.example_zh}
           band={word.band}
+          cefr={word.cefr}
+          frequencyBand={word.frequency_band}
+          topic={word.topic}
           flipped={flipped}
           onFlip={() => setFlipped(true)}
         />
@@ -334,9 +348,32 @@ export default function ReviewPage() {
   return (
     <div style={{ paddingTop: 8 }}>
       <h1 style={{ fontSize: "1.375rem", fontWeight: 700, color: "#111", marginBottom: 4 }}>背单词</h1>
-      <p style={{ fontSize: "0.875rem", color: "#9ca3af", marginBottom: 40 }}>
-        IELTS 高频词汇 · 共 {IELTS_VOCAB.length} 词
+      <p style={{ fontSize: "0.875rem", color: "#9ca3af", marginBottom: 24 }}>
+        IELTS 学术词汇 · CEFR B2-C2 · 共 {IELTS_VOCAB.length} 词
       </p>
+
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 12 }} aria-label="CEFR 难度">
+          <FilterPill active={cefrFilter === "all"} onClick={() => setCefrFilter("all")}>全部</FilterPill>
+          {CEFR_LEVELS.map((level) => (
+            <FilterPill key={level} active={cefrFilter === level} onClick={() => setCefrFilter(level)}>
+              {level}
+            </FilterPill>
+          ))}
+        </div>
+        <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "0.8125rem", color: "#6b7280" }}>
+          <span>IELTS 主题</span>
+          <select
+            value={topicFilter}
+            onChange={(event) => setTopicFilter(event.target.value)}
+            style={{ minWidth: 150, padding: "7px 10px", border: "1px solid #e5e7eb", borderRadius: 8, background: "#fff", color: "#374151", fontSize: "0.8125rem" }}
+          >
+            <option value="all">全部主题</option>
+            {IELTS_TOPICS.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
+          </select>
+          <span>{selectedVocab.length} 词</span>
+        </label>
+      </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {/* SRS review — shown if due cards exist */}
@@ -387,11 +424,13 @@ export default function ReviewPage() {
         {/* Start learning */}
         <button
           onClick={() => startVocabMode("vocab")}
+          disabled={selectedVocab.length === 0}
           style={{
             width: "100%", padding: "20px 20px", borderRadius: 14,
             border: "1px solid #e5e7eb", background: "#fff",
             display: "flex", alignItems: "center", justifyContent: "space-between",
-            cursor: "pointer", textAlign: "left",
+            cursor: selectedVocab.length ? "pointer" : "default", textAlign: "left",
+            opacity: selectedVocab.length ? 1 : 0.55,
           }}
           onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.borderColor = "#16a34a"; }}
           onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.borderColor = "#e5e7eb"; }}
@@ -399,7 +438,7 @@ export default function ReviewPage() {
           <div>
             <div style={{ fontSize: "1rem", fontWeight: 600, color: "#111" }}>开始学习</div>
             <div style={{ fontSize: "0.8125rem", color: "#9ca3af", marginTop: 2 }}>
-              翻牌记忆 · AWL 学术词汇 + IELTS 话题词
+              随机学习 · 当前 {selectedVocab.length} 词
             </div>
           </div>
           <ChevronRight size={18} color="#9ca3af" />
@@ -412,12 +451,13 @@ export default function ReviewPage() {
 // ── FlashCard ─────────────────────────────────────────────────────────────
 function FlashCard({
   word, pronunciation, pos, meaning_zh, meaning_en,
-  example, example_zh, band, flipped, onFlip,
+  example, example_zh, band, cefr, frequencyBand, topic, flipped, onFlip,
 }: {
   word: string; pronunciation?: string | null; pos?: string | null;
   meaning_zh?: string | null; meaning_en?: string | null;
   example?: string | null; example_zh?: string | null;
-  band?: string | null; flipped: boolean; onFlip: () => void;
+  band?: string | null; cefr?: string | null; frequencyBand?: string | null;
+  topic?: string | null; flipped: boolean; onFlip: () => void;
 }) {
   const shownMeaningZh = displayMeaningZh(word, meaning_zh);
   const shownMeaningEn = displayMeaningEn(meaning_en);
@@ -443,11 +483,11 @@ function FlashCard({
         {pos && (
           <div style={{ fontSize: "0.8125rem", color: "#9ca3af", fontStyle: "italic", marginBottom: 8 }}>{pos}</div>
         )}
-        {band && (
-          <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#16a34a", background: "#dcfce7", padding: "3px 10px", borderRadius: 999 }}>
-            Band {band}
-          </span>
-        )}
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 6 }}>
+          {cefr && <span style={levelBadgeStyle}>CEFR {cefr}</span>}
+          {band && <span style={levelBadgeStyle}>Band {band}</span>}
+          {frequencyBand && <span style={levelBadgeStyle}>{frequencyBand}</span>}
+        </div>
       </div>
 
       <div style={{ borderTop: "1px solid #e5e7eb" }} />
@@ -455,6 +495,7 @@ function FlashCard({
       {/* Back */}
       {flipped ? (
         <div style={{ padding: "20px 24px" }}>
+          {topic && <div style={{ textAlign: "center", fontSize: "0.75rem", color: "#16a34a", marginBottom: 10 }}>{topic}</div>}
           <div style={{ textAlign: "center", marginBottom: 14 }}>
             <div style={{ fontSize: "1.375rem", fontWeight: 700, color: "#111", marginBottom: 4 }}>{shownMeaningZh}</div>
             {shownMeaningEn && (
@@ -533,4 +574,9 @@ const backBtnStyle: React.CSSProperties = {
   fontSize: "0.875rem", color: "#6b7280",
   background: "none", border: "none", cursor: "pointer",
   padding: 0, marginBottom: 24,
+};
+
+const levelBadgeStyle: React.CSSProperties = {
+  fontSize: "0.75rem", fontWeight: 600, color: "#16a34a",
+  background: "#dcfce7", padding: "3px 10px", borderRadius: 999,
 };

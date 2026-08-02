@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -28,13 +29,12 @@ async def _upsert_knowledge_point(
     """Insert or update a knowledge point by surface form, level, language, and type."""
     stmt = select(KnowledgePoint).where(
         KnowledgePoint.surface_form == data["surface_form"],
-        KnowledgePoint.proficiency_level == data.get("proficiency_level", "N5"),
         KnowledgePoint.target_language == target_language,
         KnowledgePoint.type == kp_type,
-        KnowledgePoint.deleted_at.is_(None),
     )
     result = await db.execute(stmt)
-    existing = result.scalar_one_or_none()
+    existing = result.scalars().first()
+    reference_source = "ielts_reference" if target_language == "en" else "jlpt_reference"
 
     if existing:
         field_map = {
@@ -51,6 +51,10 @@ async def _upsert_knowledge_point(
         for source, target in field_map.items():
             if source in data:
                 setattr(existing, target, data[source])
+        existing.proficiency_level = data.get("proficiency_level", "N5")
+        existing.level_system = level_system
+        existing.source = reference_source
+        existing.deleted_at = None
         return existing
 
     kp = KnowledgePoint(
@@ -68,7 +72,7 @@ async def _upsert_knowledge_point(
         example_target=data.get("example_target"),
         example_zh=data.get("example_zh"),
         metadata_=data.get("metadata", {}),
-        source="jlpt_reference",
+        source=reference_source,
         is_verified=True,
     )
     db.add(kp)
@@ -128,16 +132,23 @@ async def ingest_vocabulary(
 
     created = 0
     skipped = 0
+    removed = 0
     errors: list[str] = []
+    active_forms: set[str] = set()
 
     for fpath in files:
         try:
             raw = json.loads(fpath.read_text(encoding="utf-8"))
             entries = raw if isinstance(raw, list) else raw.get("data", [])
             for entry in entries:
+                active_forms.add(entry["surface_form"].lower())
                 try:
                     kp = await _upsert_knowledge_point(
-                        db, entry, kp_type="vocabulary", target_language=target_language
+                        db,
+                        entry,
+                        kp_type="vocabulary",
+                        target_language=target_language,
+                        level_system="ielts" if target_language == "en" else "jlpt",
                     )
                     await _ensure_graph_node(db, kp)
                     created += 1
@@ -147,8 +158,30 @@ async def ingest_vocabulary(
         except Exception as e:
             errors.append(f"{fpath.name}: {e}")
 
-    logger.info(f"Vocabulary ingestion complete: {created} created, {skipped} skipped")
-    return {"created": created, "skipped": skipped, "errors": errors[:20], "files": [f.name for f in files]}
+    if target_language == "en" and file_path is None and active_forms:
+        result = await db.execute(
+            select(KnowledgePoint).where(
+                KnowledgePoint.target_language == "en",
+                KnowledgePoint.type == "vocabulary",
+                KnowledgePoint.source.in_(["jlpt_reference", "ielts_reference"]),
+                KnowledgePoint.deleted_at.is_(None),
+            )
+        )
+        for existing in result.scalars().all():
+            if existing.surface_form.lower() not in active_forms:
+                existing.deleted_at = datetime.now(timezone.utc)
+                removed += 1
+
+    logger.info(
+        f"Vocabulary ingestion complete: {created} synced, {removed} removed, {skipped} skipped"
+    )
+    return {
+        "created": created,
+        "removed": removed,
+        "skipped": skipped,
+        "errors": errors[:20],
+        "files": [f.name for f in files],
+    }
 
 
 async def ingest_grammar(
