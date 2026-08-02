@@ -3,8 +3,8 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "语言学习助手 — 英语 + 日语",
-  description: "中文母语者学习英语和日语的智能学习平台",
+  title: "LangLearn",
+  description: "轻量的个人英语学习工具",
 };
 
 export default function RootLayout({

@@ -1,34 +1,77 @@
 import Link from "next/link";
-import { BookOpen, Highlighter, RotateCcw } from "lucide-react";
-
-const highlights = [
-  { icon: BookOpen, text: "IELTS 阅读" },
-  { icon: Highlighter, text: "选中问 AI" },
-  { icon: RotateCcw, text: "单词复习" },
-];
+import { BookOpen } from "lucide-react";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-white text-[var(--foreground)]">
-      <header className="border-b border-[var(--border)]">
-        <div className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-5">
-          <Link href="/" className="flex items-center gap-3 text-[var(--primary)] hover:no-underline">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--primary)] text-white">
+    <main style={{ minHeight: "100vh", background: "#fff", color: "#111827" }}>
+      <header style={{ height: 64, borderBottom: "1px solid #e5e7eb" }}>
+        <div
+          style={{
+            height: "100%",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "0 28px",
+          }}
+        >
+          <Link
+            href="/"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              color: "#16a34a",
+              textDecoration: "none",
+              fontWeight: 800,
+            }}
+          >
+            <span
+              style={{
+                width: 36,
+                height: 36,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 12,
+                background: "#16a34a",
+                color: "#fff",
+              }}
+            >
               <BookOpen size={18} />
             </span>
-            <span className="text-base font-extrabold">LangLearn</span>
+            LangLearn
           </Link>
 
-          <div className="flex items-center gap-2">
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <Link
               href="/login"
-              className="rounded-lg px-3 py-2 text-sm font-semibold text-[#64748b] hover:bg-[#f8fafc] hover:text-[#111827] hover:no-underline"
+              style={{
+                color: "#16a34a",
+                fontSize: 14,
+                fontWeight: 700,
+                textDecoration: "none",
+                padding: "8px 10px",
+              }}
             >
               登录
             </Link>
             <Link
               href="/register"
-              className="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-bold text-white hover:bg-[var(--primary-hover)] hover:no-underline"
+              style={{
+                height: 36,
+                minWidth: 72,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 10,
+                background: "#16a34a",
+                color: "#fff",
+                fontSize: 14,
+                fontWeight: 800,
+                textDecoration: "none",
+                padding: "0 18px",
+              }}
             >
               注册
             </Link>
@@ -36,39 +79,91 @@ export default function HomePage() {
         </div>
       </header>
 
-      <section className="mx-auto flex min-h-[calc(100vh-64px)] w-full max-w-3xl flex-col items-center justify-center px-5 py-16 text-center">
-        <h1 className="text-4xl font-black tracking-normal text-[#0f172a] sm:text-5xl">
-          LangLearn
-        </h1>
-        <p className="mt-4 max-w-xl text-base leading-8 text-[#64748b]">
-          读英语文章、问 AI 解释、复习不熟的单词。一个轻量的个人英语学习工具。
-        </p>
-
-        <div className="mt-8 flex w-full max-w-sm flex-col gap-3 sm:flex-row sm:justify-center">
-          <Link
-            href="/register"
-            className="inline-flex h-12 items-center justify-center rounded-xl bg-[var(--primary)] px-7 text-sm font-extrabold text-white hover:bg-[var(--primary-hover)] hover:no-underline"
+      <section
+        style={{
+          minHeight: "calc(100vh - 64px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "80px 24px",
+          textAlign: "center",
+        }}
+      >
+        <div style={{ width: "100%", maxWidth: 640 }}>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "clamp(44px, 7vw, 72px)",
+              lineHeight: 1.05,
+              fontWeight: 900,
+              letterSpacing: 0,
+              color: "#0f172a",
+            }}
           >
-            免费开始
-          </Link>
-          <Link
-            href="/login"
-            className="inline-flex h-12 items-center justify-center rounded-xl border border-[var(--border)] px-7 text-sm font-bold text-[#334155] hover:border-[#bbf7d0] hover:text-[var(--primary)] hover:no-underline"
+            LangLearn
+          </h1>
+          <p
+            style={{
+              margin: "18px auto 0",
+              maxWidth: 540,
+              color: "#64748b",
+              fontSize: 17,
+              lineHeight: 1.8,
+            }}
           >
-            已有账号
-          </Link>
-        </div>
+            读英语文章、问 AI 解释、复习不熟的单词。一个轻量的个人英语学习工具。
+          </p>
 
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
-          {highlights.map((item) => (
-            <span
-              key={item.text}
-              className="inline-flex items-center gap-2 rounded-full border border-[#dcfce7] bg-[#f0fdf4] px-4 py-2 text-sm font-semibold text-[var(--primary)]"
+          <div
+            style={{
+              marginTop: 34,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 12,
+              flexWrap: "wrap",
+            }}
+          >
+            <Link
+              href="/register"
+              style={{
+                height: 48,
+                minWidth: 132,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 12,
+                background: "#16a34a",
+                color: "#fff",
+                fontSize: 15,
+                fontWeight: 800,
+                textDecoration: "none",
+                padding: "0 26px",
+              }}
             >
-              <item.icon size={15} />
-              {item.text}
-            </span>
-          ))}
+              免费开始
+            </Link>
+            <Link
+              href="/login"
+              style={{
+                height: 48,
+                minWidth: 132,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 12,
+                border: "1px solid #e5e7eb",
+                background: "#fff",
+                color: "#334155",
+                fontSize: 15,
+                fontWeight: 800,
+                textDecoration: "none",
+                padding: "0 26px",
+              }}
+            >
+              已有账号
+            </Link>
+          </div>
         </div>
       </section>
     </main>
