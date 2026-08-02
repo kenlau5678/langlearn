@@ -1,7 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 from uuid import UUID
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 # --- Knowledge Point ---
@@ -48,7 +48,7 @@ class KnowledgePointResponse(BaseModel):
     explanation_zh: str | None
     example_target: list[str] | None
     example_zh: list[str] | None
-    metadata: dict
+    metadata: dict = Field(default_factory=dict, validation_alias="metadata_")
     source: str | None
     is_verified: bool
     created_at: datetime
@@ -84,7 +84,7 @@ class MaterialResponse(BaseModel):
     level_system: str
     difficulty: Decimal
     status: str
-    metadata: dict
+    metadata: dict = Field(default_factory=dict, validation_alias="metadata_")
     created_at: datetime
 
     model_config = {"from_attributes": True}
