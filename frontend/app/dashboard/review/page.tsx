@@ -10,6 +10,15 @@ interface SessionStats { correct: number; wrong: number; total: number }
 
 const FORGOTTEN_VOCAB_KEY = "langlearn:forgotten-vocab";
 
+function shuffleWords(words: IeltsWord[]) {
+  const shuffled = [...words];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 // ── Main component ────────────────────────────────────────────────────────
 export default function ReviewPage() {
   const [srsCards, setSrsCards] = useState<ReviewCard[]>([]);
@@ -19,6 +28,7 @@ export default function ReviewPage() {
   // vocab browse state
   const [vocabIdx, setVocabIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [studyDeck, setStudyDeck] = useState<IeltsWord[]>([]);
 
   // srs state
   const [srsIdx, setSrsIdx] = useState(0);
@@ -56,7 +66,7 @@ export default function ReviewPage() {
     () => IELTS_VOCAB.filter((word) => forgottenSet.has(word.word)),
     [forgottenSet]
   );
-  const filteredVocab = mode === "missed" ? forgottenVocab : IELTS_VOCAB;
+  const filteredVocab = studyDeck;
 
   const saveForgottenWords = useCallback((words: string[]) => {
     const next = Array.from(new Set(words));
@@ -68,6 +78,15 @@ export default function ReviewPage() {
     setMode("idle");
     setVocabIdx(0);
     setFlipped(false);
+    setStudyDeck([]);
+  };
+
+  const startVocabMode = (nextMode: "vocab" | "missed") => {
+    const words = nextMode === "missed" ? forgottenVocab : IELTS_VOCAB;
+    setStudyDeck(shuffleWords(words));
+    setVocabIdx(0);
+    setFlipped(false);
+    setMode(nextMode);
   };
 
   const advanceVocab = (total: number) => {
@@ -329,7 +348,7 @@ export default function ReviewPage() {
 
         {forgottenWords.length > 0 && (
           <button
-            onClick={() => { setVocabIdx(0); setFlipped(false); setMode("missed"); }}
+            onClick={() => startVocabMode("missed")}
             style={{
               width: "100%", padding: "20px 20px", borderRadius: 14,
               border: "1px solid #bbf7d0", background: "#f0fdf4",
@@ -351,7 +370,7 @@ export default function ReviewPage() {
 
         {/* Start learning */}
         <button
-          onClick={() => { setVocabIdx(0); setFlipped(false); setMode("vocab"); }}
+          onClick={() => startVocabMode("vocab")}
           style={{
             width: "100%", padding: "20px 20px", borderRadius: 14,
             border: "1px solid #e5e7eb", background: "#fff",
