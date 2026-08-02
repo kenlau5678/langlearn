@@ -52,8 +52,14 @@ async def list_materials(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    stmt = select(Material).where(Material.deleted_at.is_(None))
-    count_stmt = select(func.count()).select_from(Material).where(Material.deleted_at.is_(None))
+    stmt = select(Material).where(
+        Material.deleted_at.is_(None),
+        Material.created_by == current_user.id,
+    )
+    count_stmt = select(func.count()).select_from(Material).where(
+        Material.deleted_at.is_(None),
+        Material.created_by == current_user.id,
+    )
 
     if target_language:
         stmt = stmt.where(Material.target_language == target_language)
@@ -83,7 +89,11 @@ async def get_material(
 ):
     result = await db.execute(
         select(Material)
-        .where(Material.id == material_id, Material.deleted_at.is_(None))
+        .where(
+            Material.id == material_id,
+            Material.deleted_at.is_(None),
+            Material.created_by == current_user.id,
+        )
         .options(selectinload(Material.chunks))
     )
     material = result.scalar_one_or_none()
@@ -100,7 +110,11 @@ async def update_material(
     db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(
-        select(Material).where(Material.id == material_id, Material.deleted_at.is_(None))
+        select(Material).where(
+            Material.id == material_id,
+            Material.deleted_at.is_(None),
+            Material.created_by == current_user.id,
+        )
     )
     material = result.scalar_one_or_none()
     if not material:
@@ -125,7 +139,11 @@ async def delete_material(
 ):
     from datetime import datetime, timezone
     result = await db.execute(
-        select(Material).where(Material.id == material_id, Material.deleted_at.is_(None))
+        select(Material).where(
+            Material.id == material_id,
+            Material.deleted_at.is_(None),
+            Material.created_by == current_user.id,
+        )
     )
     material = result.scalar_one_or_none()
     if not material:

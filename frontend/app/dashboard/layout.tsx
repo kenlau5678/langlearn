@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { BookOpen, LogOut, RotateCcw } from "lucide-react";
-import { authAPI } from "@/lib/api";
+import { authAPI, userAPI } from "@/lib/api";
 
 const navItems = [
   { href: "/dashboard/materials", label: "阅读", icon: BookOpen },
@@ -17,11 +18,54 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    const token = localStorage.getItem("access_token");
+
+    if (!token) {
+      authAPI.logout();
+      router.replace("/login");
+      return;
+    }
+
+    userAPI
+      .getMe()
+      .then(() => {
+        if (!cancelled) setCheckingAuth(false);
+      })
+      .catch(() => {
+        authAPI.logout();
+        router.replace("/login");
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   const handleLogout = () => {
     authAPI.logout();
     router.push("/login");
   };
+
+  if (checkingAuth) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#9ca3af",
+          fontSize: 14,
+        }}
+      >
+        加载中...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
