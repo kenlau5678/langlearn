@@ -10,6 +10,8 @@ interface AskPanelOverlayProps {
   targetLanguage?: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  draftQuestion?: string;
+  draftQuestionKey?: number;
 }
 
 const SUGGESTIONS = ["总结大意", "解释难句", "出题思路", "写作借鉴"];
@@ -20,6 +22,8 @@ export default function AskPanelOverlay({
   targetLanguage = "en",
   open,
   onOpenChange,
+  draftQuestion = "",
+  draftQuestionKey = 0,
 }: AskPanelOverlayProps) {
   const [messages, setMessages] = useState<{ role: "user" | "assistant"; text: string }[]>([
     { role: "assistant", text: "Hi，我可以帮你理解这篇文章。想问什么？" },
@@ -36,6 +40,13 @@ export default function AskPanelOverlay({
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 80);
   }, [open]);
+
+  useEffect(() => {
+    if (!draftQuestion) return;
+    setInput(draftQuestion);
+    onOpenChange(true);
+    setTimeout(() => inputRef.current?.focus(), 80);
+  }, [draftQuestion, draftQuestionKey, onOpenChange]);
 
   const sendQuestion = useCallback(
     async (question: string) => {

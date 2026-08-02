@@ -2,7 +2,6 @@
 
 import { materialsAPI, streamRequest } from "@/lib/api";
 import { useState, useEffect, useCallback } from "react";
-import AskPopup from "@/components/AskPopup";
 import AskPanelOverlay from "@/components/AskPanelOverlay";
 import ReactMarkdown from "react-markdown";
 import { IELTS_PASSAGES, IeltsPassage } from "@/lib/ielts-passages";
@@ -22,6 +21,7 @@ interface AskState {
   isOpen: boolean;
   selectedText: string;
   fullSentence?: string;
+  type?: "word" | "text";
 }
 
 type Screen = "home" | "library" | "ai" | "saved";
@@ -148,6 +148,7 @@ export default function MaterialsPage() {
   const [genSaveMessage, setGenSaveMessage] = useState("");
   const [savingReading, setSavingReading] = useState(false);
   const [readingSaveMessage, setReadingSaveMessage] = useState("");
+  const [askDraftKey, setAskDraftKey] = useState(0);
 
   useEffect(() => {
     setAskPanelOpen(false);
@@ -163,11 +164,23 @@ export default function MaterialsPage() {
     finally { setLoadingSaved(false); }
   }, []);
 
-  const handleWordClick = (word: string, sentence: string) =>
-    setAskState({ isOpen: true, selectedText: word, fullSentence: sentence });
+  const handleWordClick = (word: string, sentence: string) => {
+    setAskState({ isOpen: true, selectedText: word, fullSentence: sentence, type: "word" });
+    setAskPanelOpen(true);
+    setAskDraftKey(Date.now());
+  };
 
-  const handleTextSelect = (text: string, sentence: string) =>
-    setAskState({ isOpen: true, selectedText: text, fullSentence: sentence });
+  const handleTextSelect = (text: string, sentence: string) => {
+    setAskState({ isOpen: true, selectedText: text, fullSentence: sentence, type: "text" });
+    setAskPanelOpen(true);
+    setAskDraftKey(Date.now());
+  };
+
+  const askDraftQuestion = askState.selectedText
+    ? askState.type === "word"
+      ? `请解释「${askState.selectedText}」在这句话里的意思、用法和语法作用：${askState.fullSentence || askState.selectedText}`
+      : `请解释这段文字的意思、语法结构和重点表达：${askState.selectedText}`
+    : "";
 
   const generateAI = async () => {
     setGenerating(true);
@@ -371,22 +384,14 @@ export default function MaterialsPage() {
           </div>
         </div>
 
-        {/* Word-click explain popup */}
-        <AskPopup
-          isOpen={askState.isOpen}
-          onClose={() => setAskState((s) => ({ ...s, isOpen: false }))}
-          mode="explain"
-          selectedText={askState.selectedText}
-          fullSentence={askState.fullSentence}
-          targetLanguage="en"
-        />
-
         {/* Ask AI floating panel */}
         <AskPanelOverlay
           articleTitle={isIelts ? selectedPassage.title : (selectedPassage as Material).title}
           articleContent={content}
           open={askPanelOpen}
           onOpenChange={setAskPanelOpen}
+          draftQuestion={askDraftQuestion}
+          draftQuestionKey={askDraftKey}
         />
       </div>
     );
@@ -601,20 +606,14 @@ export default function MaterialsPage() {
           </div>
         )}
 
-        <AskPopup
-          isOpen={askState.isOpen}
-          onClose={() => setAskState((s) => ({ ...s, isOpen: false }))}
-          mode="explain"
-          selectedText={askState.selectedText}
-          fullSentence={askState.fullSentence}
-          targetLanguage="en"
-        />
         {!generating && genContent.trim() && (
           <AskPanelOverlay
             articleTitle={getGeneratedTitle(genContent.trim(), genLevel)}
             articleContent={genContent.trim()}
             open={askPanelOpen}
             onOpenChange={setAskPanelOpen}
+            draftQuestion={askDraftQuestion}
+            draftQuestionKey={askDraftKey}
           />
         )}
       </div>
@@ -688,14 +687,6 @@ export default function MaterialsPage() {
         </div>
       )}
 
-      <AskPopup
-        isOpen={askState.isOpen}
-        onClose={() => setAskState((s) => ({ ...s, isOpen: false }))}
-        mode="explain"
-        selectedText={askState.selectedText}
-        fullSentence={askState.fullSentence}
-        targetLanguage="en"
-      />
     </div>
   );
 }
