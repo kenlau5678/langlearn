@@ -28,6 +28,11 @@ type Screen = "home" | "library" | "ai" | "saved";
 
 const BANDS = ["6.0", "6.5", "7.0", "7.5", "8.0", "8.5", "9.0"];
 
+function getGeneratedTitle(content: string, level: string) {
+  const heading = content.match(/^#\s+(.+)$/m)?.[1]?.trim();
+  return heading || `AI · Band ${level} · ${new Date().toLocaleDateString("zh-CN")}`;
+}
+
 // ── Clickable highlighted vocab ──
 function Vocab({
   children,
@@ -191,9 +196,8 @@ export default function MaterialsPage() {
     setSavingGenerated(true);
     setGenSaveMessage("");
     try {
-      const heading = content.match(/^#\s+(.+)$/m)?.[1]?.trim();
       await materialsAPI.create({
-        title: heading || `AI · Band ${genLevel} · ${new Date().toLocaleDateString("zh-CN")}`,
+        title: getGeneratedTitle(content, genLevel),
         content_text: content,
         target_language: "en",
         source_type: "ai_generated",
@@ -605,6 +609,14 @@ export default function MaterialsPage() {
           fullSentence={askState.fullSentence}
           targetLanguage="en"
         />
+        {!generating && genContent.trim() && (
+          <AskPanelOverlay
+            articleTitle={getGeneratedTitle(genContent.trim(), genLevel)}
+            articleContent={genContent.trim()}
+            open={askPanelOpen}
+            onOpenChange={setAskPanelOpen}
+          />
+        )}
       </div>
     );
   }
