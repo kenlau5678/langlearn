@@ -3439,12 +3439,12 @@ export const IELTS_VOCAB: IeltsWord[] = [
   {
     "id": "ielts-286-architecture",
     "word": "architecture",
-    "pronunciation": "",
-    "pos": "word",
-    "meaning_zh": "待补充释义：architecture",
-    "meaning_en": "IELTS reading vocabulary from the built-in article corpus",
-    "example": "Variable reward schedules   the same intermittent reinforcement principle that underlies the addictiveness of slot machines   are embedded in the architecture of social media feeds  where the unpredictability of what one",
-    "example_zh": "",
+    "pronunciation": "ˈɑːrkɪtektʃər",
+    "pos": "noun",
+    "meaning_zh": "建筑；建筑风格；结构，架构",
+    "meaning_en": "the design and structure of a building, system, or process",
+    "example": "Notification systems are embedded in the architecture of social media feeds.",
+    "example_zh": "通知系统被嵌入社交媒体信息流的结构之中。",
     "category": "IELTS Reading",
     "band": "8.5"
   },

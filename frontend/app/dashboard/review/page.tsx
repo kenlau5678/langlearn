@@ -9,6 +9,22 @@ import { CheckCircle2, XCircle, Loader2, RotateCcw, ChevronRight } from "lucide-
 interface SessionStats { correct: number; wrong: number; total: number }
 
 const FORGOTTEN_VOCAB_KEY = "langlearn:forgotten-vocab";
+const PLACEHOLDER_MEANING_PREFIX = "待补充释义：";
+const GENERIC_CORPUS_MEANING = "IELTS reading vocabulary from the built-in article corpus";
+
+function displayMeaningZh(word: string, meaning?: string | null) {
+  if (!meaning || meaning.startsWith(PLACEHOLDER_MEANING_PREFIX)) {
+    return `释义待完善：${word}`;
+  }
+  return meaning;
+}
+
+function displayMeaningEn(meaning?: string | null) {
+  if (!meaning || meaning === GENERIC_CORPUS_MEANING) {
+    return "这是一篇 IELTS 阅读语料中出现的词，可在文章助手中查询语境用法。";
+  }
+  return meaning;
+}
 
 function shuffleWords(words: IeltsWord[]) {
   const shuffled = [...words];
@@ -403,6 +419,9 @@ function FlashCard({
   example?: string | null; example_zh?: string | null;
   band?: string | null; flipped: boolean; onFlip: () => void;
 }) {
+  const shownMeaningZh = displayMeaningZh(word, meaning_zh);
+  const shownMeaningEn = displayMeaningEn(meaning_en);
+
   return (
     <div
       onClick={() => !flipped && onFlip()}
@@ -437,9 +456,9 @@ function FlashCard({
       {flipped ? (
         <div style={{ padding: "20px 24px" }}>
           <div style={{ textAlign: "center", marginBottom: 14 }}>
-            <div style={{ fontSize: "1.375rem", fontWeight: 700, color: "#111", marginBottom: 4 }}>{meaning_zh}</div>
-            {meaning_en && (
-              <div style={{ fontSize: "0.875rem", color: "#6b7280", lineHeight: 1.5 }}>{meaning_en}</div>
+            <div style={{ fontSize: "1.375rem", fontWeight: 700, color: "#111", marginBottom: 4 }}>{shownMeaningZh}</div>
+            {shownMeaningEn && (
+              <div style={{ fontSize: "0.875rem", color: "#6b7280", lineHeight: 1.5 }}>{shownMeaningEn}</div>
             )}
           </div>
           {example && (
