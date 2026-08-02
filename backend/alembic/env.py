@@ -1,7 +1,11 @@
 from logging.config import fileConfig
 import os
+import sys
+from pathlib import Path
 from sqlalchemy import engine_from_config, pool
 from alembic import context
+
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 # Import all models so Alembic can detect them
 from app.models import Base
