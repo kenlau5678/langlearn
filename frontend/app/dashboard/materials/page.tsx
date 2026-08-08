@@ -82,22 +82,34 @@ function ArticleBody({
   onWordClick: (word: string, sentence: string) => void;
   onTextSelect: (text: string, sentence: string) => void;
 }) {
-  const handleMouseUp = () => {
-    const selection = window.getSelection();
-    const text = selection?.toString().trim();
-    if (!selection || !text || text.length < 2 || text.length > 300) return;
-    const anchor = selection.anchorNode;
-    const element = anchor?.nodeType === Node.TEXT_NODE
-      ? anchor.parentElement
-      : anchor as HTMLElement | null;
-    const sentence = element?.closest("p")?.textContent || text;
-    onTextSelect(text, sentence);
+  const articleRef = useRef<HTMLDivElement>(null);
+
+  const handleSelectionEnd = () => {
+    window.setTimeout(() => {
+      const selection = window.getSelection();
+      const text = selection?.toString().trim();
+      const anchor = selection?.anchorNode;
+      if (
+        !selection
+        || !anchor
+        || !articleRef.current?.contains(anchor)
+        || !text
+        || text.length < 2
+        || text.length > 300
+      ) return;
+      const element = anchor.nodeType === Node.TEXT_NODE
+        ? anchor.parentElement
+        : anchor as HTMLElement;
+      const sentence = element?.closest("p")?.textContent || text;
+      onTextSelect(text, sentence);
+    }, 80);
   };
 
   return (
     <div
-      onMouseUp={handleMouseUp}
-      onTouchEnd={handleMouseUp}
+      ref={articleRef}
+      onMouseUp={handleSelectionEnd}
+      onTouchEnd={handleSelectionEnd}
       style={{
         userSelect: "text",
         cursor: "text",
