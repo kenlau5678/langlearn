@@ -3,7 +3,7 @@
 import { progressAPI, ReviewCard } from "@/lib/api";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { IELTS_VOCAB, IeltsWord } from "@/lib/ielts-vocab";
-import { CheckCircle2, XCircle, Loader2, RotateCcw, ChevronRight } from "lucide-react";
+import { CheckCircle2, XCircle, Loader2, RotateCcw, ChevronRight, Volume2 } from "lucide-react";
 
 // ── SRS review types ──────────────────────────────────────────────────────
 interface SessionStats { correct: number; wrong: number; total: number }
@@ -35,6 +35,19 @@ function shuffleWords(words: IeltsWord[]) {
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;
+}
+
+function speakWord(word: string) {
+  if (!("speechSynthesis" in window)) return;
+
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-GB";
+  utterance.rate = 0.85;
+  utterance.voice = window.speechSynthesis
+    .getVoices()
+    .find((voice) => voice.lang.toLowerCase().startsWith("en-gb")) || null;
+  window.speechSynthesis.speak(utterance);
 }
 
 // ── Main component ────────────────────────────────────────────────────────
@@ -481,7 +494,25 @@ function FlashCard({
     >
       {/* Front */}
       <div style={{ padding: "36px 24px", textAlign: "center" }}>
-        <div style={{ fontSize: "2rem", fontWeight: 700, color: "#111", marginBottom: 8 }}>{word}</div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 8 }}>
+          <div style={{ fontSize: "2rem", fontWeight: 700, color: "#111" }}>{word}</div>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              speakWord(word);
+            }}
+            aria-label={`朗读 ${word}`}
+            title="朗读单词"
+            style={{
+              width: 34, height: 34, display: "inline-flex", alignItems: "center", justifyContent: "center",
+              border: "none", borderRadius: 8, background: "#dcfce7", color: "#16a34a", cursor: "pointer",
+              flexShrink: 0,
+            }}
+          >
+            <Volume2 size={18} />
+          </button>
+        </div>
         {pronunciation && (
           <div style={{ fontSize: "0.9375rem", color: "#9ca3af", marginBottom: 4 }}>/{pronunciation}/</div>
         )}
