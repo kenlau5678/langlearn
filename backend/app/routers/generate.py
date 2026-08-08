@@ -1,4 +1,3 @@
-import json
 from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
@@ -16,14 +15,6 @@ class GenerateMaterialRequest(BaseModel):
     proficiency_level: str
     level_system: str = "jlpt"
     chunk_count: int = 5
-
-
-class GenerateExercisesRequest(BaseModel):
-    knowledge_point_ids: list[str]
-    exercise_types: list[str] = ["fill_blank"]
-    count_per_kp: int = 3
-    proficiency_level: str
-    level_system: str = "jlpt"
 
 
 class GenerateLessonRequest(BaseModel):
@@ -67,7 +58,6 @@ async def generate_lesson(
     - grammar: grammar pattern explanation with examples
     - mixed: a little of everything (default)
     """
-    lang_name = "日语" if request.target_language == "ja" else "英语"
     level_system = "JLPT" if request.target_language == "ja" else "IELTS"
     topic_hint = f"主题: {request.topic}\n" if request.topic else ""
 
@@ -95,39 +85,6 @@ async def generate_lesson(
 
     return StreamingResponse(
         llm_service.stream_completion(messages, temperature=0.8),
-        media_type="text/event-stream",
-        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
-    )
-
-
-@router.post("/exercises")
-async def generate_exercises(
-    request: GenerateExercisesRequest,
-    current_user: User = Depends(get_current_user),
-):
-    """Generate practice exercises for given knowledge points via SSE stream."""
-    lang_name = "日语" if "jlpt" in request.level_system.lower() else "英语"
-    level_system = "JLPT" if "jlpt" in request.level_system.lower() else "IELTS"
-
-    messages = [
-        {"role": "system", "content": (
-            f"你是一位{lang_name}练习题出题专家。"
-            f"请根据{level_system} {request.proficiency_level}级别生成练习题。"
-            f"题目用{lang_name}，答案和解释用中文。"
-        )},
-        {"role": "user", "content": (
-            f"请生成{request.count_per_kp}道{', '.join(request.exercise_types)}类型的练习题。\n"
-            f"级别: {level_system} {request.proficiency_level}\n\n"
-            f"每道题包含:\n"
-            f"1. 题目\n"
-            f"2. 选项（如适用）\n"
-            f"3. 正确答案\n"
-            f"4. 中文解析\n"
-        )},
-    ]
-
-    return StreamingResponse(
-        llm_service.stream_completion(messages),
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )

@@ -3,7 +3,6 @@ from datetime import datetime
 from decimal import Decimal
 from sqlalchemy import String, Integer, Text, Boolean, DateTime, Numeric, ForeignKey, func
 from sqlalchemy.dialects.postgresql import UUID, JSONB, ARRAY
-from pgvector.sqlalchemy import Vector
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models import Base
@@ -38,7 +37,6 @@ class KnowledgePoint(Base):
     example_target: Mapped[list[str] | None] = mapped_column(ARRAY(Text))
     example_zh: Mapped[list[str] | None] = mapped_column(ARRAY(Text))
     metadata_: Mapped[dict] = mapped_column("metadata", JSONB, default=dict)
-    embedding: Mapped[list[float] | None] = mapped_column(Vector(1536))
     source: Mapped[str | None] = mapped_column(String(50))
     is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
     created_at: Mapped[datetime] = mapped_column(
@@ -48,10 +46,6 @@ class KnowledgePoint(Base):
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
     deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-
-    # Relationships
-    graph_node: Mapped["KnowledgeNode | None"] = relationship(back_populates="knowledge_point")
-
 
 class Material(Base):
     __tablename__ = "materials"
@@ -71,7 +65,6 @@ class Material(Base):
     proficiency_level: Mapped[str] = mapped_column(String(10), nullable=False)
     level_system: Mapped[str] = mapped_column(String(10), nullable=False)
     difficulty: Mapped[Decimal] = mapped_column(Numeric(3, 2), default=Decimal("0.50"))
-    embedding: Mapped[list[float] | None] = mapped_column(Vector(1536))
     metadata_: Mapped[dict] = mapped_column("metadata", JSONB, default=dict)
     status: Mapped[str] = mapped_column(
         String(20), nullable=False, default="draft", index=True
@@ -106,7 +99,6 @@ class MaterialChunk(Base):
     text_zh: Mapped[str | None] = mapped_column(Text)
     reading: Mapped[str | None] = mapped_column(Text)
     chunk_type: Mapped[str] = mapped_column(String(20), default="sentence")
-    embedding: Mapped[list[float] | None] = mapped_column(Vector(1536))
     token_count: Mapped[int | None] = mapped_column(Integer)
     metadata_: Mapped[dict] = mapped_column("metadata", JSONB, default=dict)
     created_at: Mapped[datetime] = mapped_column(

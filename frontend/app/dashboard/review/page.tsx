@@ -1,8 +1,7 @@
 "use client";
 
-import { progressAPI, ReviewCard } from "@/lib/api";
+import { dictionaryAPI, IeltsWord, progressAPI, ReviewCard } from "@/lib/api";
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { IELTS_VOCAB, IeltsWord } from "@/lib/ielts-vocab";
 import { speakEnglish } from "@/lib/speech";
 import { CheckCircle2, XCircle, Loader2, RotateCcw, ChevronRight, Volume2 } from "lucide-react";
 
@@ -13,7 +12,6 @@ const FORGOTTEN_VOCAB_KEY = "langlearn:forgotten-vocab";
 const PLACEHOLDER_MEANING_PREFIX = "待补充释义：";
 const GENERIC_CORPUS_MEANING = "IELTS reading vocabulary from the built-in article corpus";
 const CEFR_LEVELS = ["B2", "C1", "C2"] as const;
-const IELTS_TOPICS = Array.from(new Set(IELTS_VOCAB.map((word) => word.topic))).sort();
 
 function displayMeaningZh(word: string, meaning?: string | null) {
   if (!meaning || meaning.startsWith(PLACEHOLDER_MEANING_PREFIX)) {
@@ -42,6 +40,8 @@ function shuffleWords(words: IeltsWord[]) {
 export default function ReviewPage() {
   const [srsCards, setSrsCards] = useState<ReviewCard[]>([]);
   const [loading, setLoading] = useState(true);
+  const [vocabulary, setVocabulary] = useState<IeltsWord[]>([]);
+  const [vocabularyLoading, setVocabularyLoading] = useState(true);
   const [mode, setMode] = useState<"idle" | "srs" | "vocab" | "missed">("idle");
 
   // vocab browse state
@@ -73,6 +73,14 @@ export default function ReviewPage() {
   useEffect(() => { fetchSrs(); }, [fetchSrs]);
 
   useEffect(() => {
+    dictionaryAPI
+      .listIeltsVocabulary()
+      .then((result) => setVocabulary((result as { data: IeltsWord[] }).data || []))
+      .catch(() => setVocabulary([]))
+      .finally(() => setVocabularyLoading(false));
+  }, []);
+
+  useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(FORGOTTEN_VOCAB_KEY) || "[]");
       if (Array.isArray(saved)) setForgottenWords(saved.filter((w) => typeof w === "string"));
@@ -83,16 +91,20 @@ export default function ReviewPage() {
 
   // ── All vocab (no filters) ──
   const forgottenSet = useMemo(() => new Set(forgottenWords), [forgottenWords]);
+  const ieltsTopics = useMemo(
+    () => Array.from(new Set(vocabulary.map((word) => word.topic))).sort(),
+    [vocabulary],
+  );
   const forgottenVocab = useMemo(
-    () => IELTS_VOCAB.filter((word) => forgottenSet.has(word.word)),
-    [forgottenSet]
+    () => vocabulary.filter((word) => forgottenSet.has(word.word)),
+    [forgottenSet, vocabulary]
   );
   const selectedVocab = useMemo(
-    () => IELTS_VOCAB.filter((word) =>
+    () => vocabulary.filter((word) =>
       (cefrFilter === "all" || word.cefr === cefrFilter)
       && (topicFilter === "all" || word.topic === topicFilter)
     ),
-    [cefrFilter, topicFilter]
+    [cefrFilter, topicFilter, vocabulary]
   );
   const filteredVocab = studyDeck;
 
@@ -178,7 +190,7 @@ export default function ReviewPage() {
   };
 
   // ── Loading ──
-  if (loading) {
+  if (loading || vocabularyLoading) {
     return (
       <div style={{ display: "flex", justifyContent: "center", paddingTop: 80 }}>
         <Loader2 size={22} className="animate-spin" style={{ color: "#9ca3af" }} />
@@ -355,7 +367,7 @@ export default function ReviewPage() {
     <div style={{ paddingTop: 8 }}>
       <h1 style={{ fontSize: "1.375rem", fontWeight: 700, color: "#111", marginBottom: 4 }}>背单词</h1>
       <p style={{ fontSize: "0.875rem", color: "#9ca3af", marginBottom: 24 }}>
-        IELTS 学术词汇 · CEFR B2-C2 · 共 {IELTS_VOCAB.length} 词
+        IELTS 学术词汇 · CEFR B2-C2 · 共 {vocabulary.length} 词
       </p>
 
       <div style={{ marginBottom: 28 }}>
@@ -375,7 +387,7 @@ export default function ReviewPage() {
             style={{ minWidth: 150, padding: "7px 10px", border: "1px solid #e5e7eb", borderRadius: 8, background: "#fff", color: "#374151", fontSize: "0.8125rem" }}
           >
             <option value="all">全部主题</option>
-            {IELTS_TOPICS.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
+            {ieltsTopics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
           </select>
           <span>{selectedVocab.length} 词</span>
         </label>

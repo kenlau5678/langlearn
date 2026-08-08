@@ -12,7 +12,6 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.knowledge_point import KnowledgePoint
-from app.models.knowledge_graph import KnowledgeNode
 
 logger = logging.getLogger(__name__)
 
@@ -80,32 +79,6 @@ async def _upsert_knowledge_point(
     return kp
 
 
-async def _ensure_graph_node(db: AsyncSession, kp: KnowledgePoint) -> KnowledgeNode:
-    """Ensure a knowledge graph node exists for the given knowledge point."""
-    stmt = select(KnowledgeNode).where(KnowledgeNode.knowledge_point_id == kp.id)
-    result = await db.execute(stmt)
-    node = result.scalar_one_or_none()
-    if node:
-        return node
-
-    node_type_map = {
-        "vocabulary": "Vocabulary",
-        "grammar": "GrammarPoint",
-        "kanji": "Kanji",
-        "sentence_pattern": "SentencePattern",
-        "reading": "Reading",
-        "idiom": "Idiom",
-        "phrasal_verb": "PhrasalVerb",
-    }
-    node = KnowledgeNode(
-        knowledge_point_id=kp.id,
-        node_type=node_type_map.get(kp.type, "Vocabulary"),
-    )
-    db.add(node)
-    await db.flush()
-    return node
-
-
 async def ingest_vocabulary(
     db: AsyncSession,
     file_path: str | None = None,
@@ -150,7 +123,6 @@ async def ingest_vocabulary(
                         target_language=target_language,
                         level_system="ielts" if target_language == "en" else "jlpt",
                     )
-                    await _ensure_graph_node(db, kp)
                     created += 1
                 except Exception as e:
                     errors.append(f"{fpath.name}: {entry.get('surface_form', '?')} — {e}")
@@ -227,7 +199,6 @@ async def ingest_grammar(
                     kp = await _upsert_knowledge_point(
                         db, kp_data, kp_type="grammar", target_language=target_language
                     )
-                    await _ensure_graph_node(db, kp)
                     created += 1
                 except Exception as e:
                     errors.append(f"{fpath.name}: {entry.get('surface_form', '?')} — {e}")
@@ -287,7 +258,6 @@ async def ingest_kanji(
                     kp = await _upsert_knowledge_point(
                         db, kp_data, kp_type="kanji", target_language=target_language
                     )
-                    await _ensure_graph_node(db, kp)
                     created += 1
                 except Exception as e:
                     errors.append(f"{fpath.name}: {entry.get('character', '?')} — {e}")

@@ -62,7 +62,6 @@ async def test_english_ingestion_retires_removed_reference_words(tmp_path, monke
     (tmp_path / "ielts_vocabulary.json").write_text(json.dumps(entries), encoding="utf-8")
     monkeypatch.setattr(ingestion_service, "DATA_DIR", tmp_path)
     monkeypatch.setattr(ingestion_service, "_upsert_knowledge_point", AsyncMock(return_value=SimpleNamespace(id="kept")))
-    monkeypatch.setattr(ingestion_service, "_ensure_graph_node", AsyncMock())
 
     kept = SimpleNamespace(surface_form="mitigate", deleted_at=None)
     removed = SimpleNamespace(surface_form="planet", deleted_at=None)

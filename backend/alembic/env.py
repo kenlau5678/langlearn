@@ -12,8 +12,6 @@ from app.models import Base
 from app.models.user import User, UserLanguageProfile
 from app.models.knowledge_point import KnowledgePoint, Material, MaterialChunk, MaterialKnowledgePoint
 from app.models.user_progress import UserProgress, ReviewLog
-from app.models.exercise import Exercise
-from app.models.knowledge_graph import KnowledgeNode, KnowledgeEdge
 
 config = context.config
 database_url = os.getenv("SYNC_DATABASE_URL") or os.getenv("DATABASE_URL")

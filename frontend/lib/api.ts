@@ -168,6 +168,8 @@ export const knowledgePointsAPI = {
 export const dictionaryAPI = {
   lookup: (word: string) =>
     request<DictionaryEntry | null>(`/dictionary/lookup?word=${encodeURIComponent(word)}`),
+  listIeltsVocabulary: () =>
+    request<IeltsWord[]>(`/dictionary/ielts-vocabulary`),
 };
 
 // --- Admin API ---
@@ -190,21 +192,6 @@ export const adminAPI = {
   ingestAll: (lang = "ja") =>
     request<{ message: string; data: Record<string, unknown> }>(
       `/admin/ingest/all?target_language=${lang}`,
-      { method: "POST" }
-    ),
-  generateGraph: () =>
-    request<{ message: string; data: Record<string, unknown> }>(
-      `/admin/graph/generate`,
-      { method: "POST" }
-    ),
-  generateEmbeddings: (lang?: string) =>
-    request<{ message: string; data: Record<string, unknown> }>(
-      `/admin/embeddings/generate${lang ? `?target_language=${lang}` : ""}`,
-      { method: "POST" }
-    ),
-  runFullPipeline: (lang = "ja") =>
-    request<{ message: string; ingest: unknown; graph: unknown; embeddings: unknown }>(
-      `/admin/ingest/full-pipeline?target_language=${lang}`,
       { method: "POST" }
     ),
 };
@@ -405,6 +392,20 @@ export interface DictionaryEntry {
   meaning_en: string;
   pos: string;
   proficiency_level: string;
+}
+
+export interface IeltsWord {
+  word: string;
+  pronunciation: string;
+  pos: string;
+  meaning_zh: string;
+  meaning_en: string;
+  example: string;
+  example_zh: string;
+  band: string;
+  cefr: "B2" | "C1" | "C2";
+  frequency_band: string;
+  topic: string;
 }
 
 export interface ProgressStats {

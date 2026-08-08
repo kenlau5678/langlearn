@@ -32,7 +32,6 @@ export default function AskPopup({
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [followUp, setFollowUp] = useState("");
-  const [history, setHistory] = useState<{ role: string; text: string }[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
   const config = modeConfig[mode];
 
@@ -77,14 +76,7 @@ export default function AskPopup({
       try {
         await streamRequest(config.path, body, {
           onToken: (text) => setContent((prev) => prev + text),
-          onDone: () => {
-            setLoading(false);
-            setHistory((prev) => [
-              ...prev,
-              { role: "user", text: question || selectedText },
-              { role: "assistant", text: content },
-            ]);
-          },
+          onDone: () => setLoading(false),
           onError: (msg) => {
             setContent(`错误: ${msg}`);
             setLoading(false);
@@ -95,12 +87,11 @@ export default function AskPopup({
         setLoading(false);
       }
     },
-    [mode, selectedText, fullSentence, targetLanguage, config.path, content],
+    [mode, selectedText, fullSentence, targetLanguage, config.path],
   );
 
   const handleFollowUp = () => {
     if (!followUp.trim()) return;
-    setHistory((prev) => [...prev, { role: "user", text: followUp }]);
     startStream(followUp);
     setFollowUp("");
   };

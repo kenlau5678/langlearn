@@ -4,7 +4,6 @@ import { DictionaryEntry, KnowledgePoint, dictionaryAPI, knowledgePointsAPI, mat
 import { useState, useEffect, useCallback, useRef } from "react";
 import AskPanelOverlay from "@/components/AskPanelOverlay";
 import ReactMarkdown from "react-markdown";
-import { ARTICLE_GLOSSARY, ArticleGlossaryEntry } from "@/lib/article-glossary";
 import { IELTS_PASSAGES, IeltsPassage } from "@/lib/ielts-passages";
 import { speakEnglish } from "@/lib/speech";
 import { ArrowLeft, Loader2, Sparkles, Trash2, Volume2, X } from "lucide-react";
@@ -30,7 +29,7 @@ interface LookupState {
   text: string;
   sentence: string;
   loading: boolean;
-  entry: DictionaryEntry | KnowledgePoint | ArticleGlossaryEntry | null;
+  entry: DictionaryEntry | KnowledgePoint | null;
   position: { left: number; top: number };
 }
 
@@ -225,12 +224,6 @@ export default function MaterialsPage() {
 
     if (!/^[A-Za-z]+(?:['-][A-Za-z]+)*$/.test(query)) {
       setLookup({ text: selectedText, sentence, loading: false, entry: null, position });
-      return;
-    }
-
-    const glossaryEntry = ARTICLE_GLOSSARY[query.toLowerCase()];
-    if (glossaryEntry) {
-      setLookup({ text: query, sentence, loading: false, entry: glossaryEntry, position });
       return;
     }
 

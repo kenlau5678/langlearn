@@ -77,27 +77,6 @@ export default function AdminPage() {
     },
   ];
 
-  const sharedActions = [
-    {
-      key: "graph",
-      label: "生成知识图谱",
-      description: "自动生成知识点之间的关系边（包含汉字、前置条件、相关）",
-      fn: () => adminAPI.generateGraph(),
-    },
-    {
-      key: "embeddings",
-      label: "生成向量嵌入",
-      description: "为缺少向量的知识点生成OpenAI嵌入向量",
-      fn: () => adminAPI.generateEmbeddings(lang),
-    },
-    {
-      key: "full-pipeline",
-      label: "运行完整管线",
-      description: `依次执行：导入${lang === "ja" ? "日语" : "英语"}数据 → 生成图谱 → 生成嵌入向量`,
-      fn: () => adminAPI.runFullPipeline(lang),
-    },
-  ];
-
   const currentActions = lang === "ja" ? jaActions : enActions;
 
   return (
@@ -105,7 +84,7 @@ export default function AdminPage() {
       <div>
         <h1 className="text-2xl font-bold">管理面板</h1>
         <p className="text-sm text-[var(--muted-foreground)] mt-1">
-          数据导入、知识图谱生成、向量嵌入等管理操作
+          导入英语与日语参考数据
         </p>
       </div>
 
@@ -157,56 +136,6 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Shared actions */}
-      <div>
-        <h2 className="text-lg font-semibold mb-3">通用操作</h2>
-        <div className="grid gap-4">
-          {sharedActions.map((action) => (
-            <ActionCard
-              key={action.key}
-              action={action}
-              running={running}
-              result={results[action.key]}
-              onRun={runAction}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Quick reference */}
-      <div className="rounded-xl border border-[var(--border)] p-5">
-        <h3 className="font-semibold text-base mb-3">API 参考</h3>
-        <div className="space-y-2 text-sm">
-          <div className="flex gap-2">
-            <code className="px-2 py-0.5 bg-[var(--muted)] rounded text-xs">POST</code>
-            <code className="text-xs">/api/v1/admin/ingest/all?target_language={"{ja|en}"}</code>
-          </div>
-          <div className="flex gap-2">
-            <code className="px-2 py-0.5 bg-[var(--muted)] rounded text-xs">POST</code>
-            <code className="text-xs">/api/v1/admin/ingest/vocabulary?target_language={"{ja|en}"}</code>
-          </div>
-          <div className="flex gap-2">
-            <code className="px-2 py-0.5 bg-[var(--muted)] rounded text-xs">POST</code>
-            <code className="text-xs">/api/v1/admin/ingest/grammar?target_language={"{ja|en}"}</code>
-          </div>
-          <div className="flex gap-2">
-            <code className="px-2 py-0.5 bg-[var(--muted)] rounded text-xs">POST</code>
-            <code className="text-xs">/api/v1/admin/ingest/kanji?target_language=ja</code>
-          </div>
-          <div className="flex gap-2">
-            <code className="px-2 py-0.5 bg-[var(--muted)] rounded text-xs">POST</code>
-            <code className="text-xs">/api/v1/admin/graph/generate</code>
-          </div>
-          <div className="flex gap-2">
-            <code className="px-2 py-0.5 bg-[var(--muted)] rounded text-xs">POST</code>
-            <code className="text-xs">/api/v1/admin/embeddings/generate?target_language={"{ja|en}"}</code>
-          </div>
-          <div className="flex gap-2">
-            <code className="px-2 py-0.5 bg-[var(--muted)] rounded text-xs">POST</code>
-            <code className="text-xs">/api/v1/admin/ingest/full-pipeline?target_language={"{ja|en}"}</code>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
