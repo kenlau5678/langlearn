@@ -3,6 +3,7 @@
 import { progressAPI, ReviewCard } from "@/lib/api";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { IELTS_VOCAB, IeltsWord } from "@/lib/ielts-vocab";
+import { speakEnglish } from "@/lib/speech";
 import { CheckCircle2, XCircle, Loader2, RotateCcw, ChevronRight, Volume2 } from "lucide-react";
 
 // ── SRS review types ──────────────────────────────────────────────────────
@@ -35,19 +36,6 @@ function shuffleWords(words: IeltsWord[]) {
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;
-}
-
-function speakWord(word: string) {
-  if (!("speechSynthesis" in window)) return;
-
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(word);
-  utterance.lang = "en-GB";
-  utterance.rate = 0.85;
-  utterance.voice = window.speechSynthesis
-    .getVoices()
-    .find((voice) => voice.lang.toLowerCase().startsWith("en-gb")) || null;
-  window.speechSynthesis.speak(utterance);
 }
 
 // ── Main component ────────────────────────────────────────────────────────
@@ -500,7 +488,7 @@ function FlashCard({
             type="button"
             onClick={(event) => {
               event.stopPropagation();
-              speakWord(word);
+              speakEnglish(word);
             }}
             aria-label={`朗读 ${word}`}
             title="朗读单词"

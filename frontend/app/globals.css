@@ -421,6 +421,122 @@ a:hover {
   opacity: 0.5;
 }
 
+.word-lookup-card {
+  position: fixed;
+  z-index: 46;
+  top: calc(var(--nav-height) + 64px);
+  right: 24px;
+  width: min(360px, calc(100vw - 48px));
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 14px 36px rgb(17 24 39 / 0.14);
+  overflow: hidden;
+}
+
+.word-lookup-header {
+  min-height: 68px;
+  padding: 13px 14px 11px 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.word-lookup-title {
+  color: var(--foreground);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.word-lookup-meta {
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 9px;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+
+.word-lookup-tools {
+  display: flex;
+  gap: 4px;
+}
+
+.word-lookup-tools button {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.word-lookup-tools button:first-child {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+.word-lookup-tools button:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+.word-lookup-content {
+  min-height: 92px;
+  padding: 16px;
+}
+
+.word-lookup-meaning {
+  color: var(--foreground);
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.word-lookup-definition,
+.word-lookup-empty {
+  margin-top: 6px;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+}
+
+.word-lookup-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+}
+
+.word-lookup-ask {
+  width: 100%;
+  min-height: 43px;
+  border: 0;
+  border-top: 1px solid var(--border);
+  background: #fff;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.word-lookup-ask:hover {
+  background: var(--accent);
+}
+
 @media (min-width: 1024px) {
   .ask-dock-desktop-chevron {
     display: block;
@@ -532,6 +648,15 @@ a:hover {
     gap: 6px;
     font-size: 0.875rem;
     color: #fff;
+  }
+
+  .word-lookup-card {
+    top: auto;
+    right: 12px;
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    width: calc(100vw - 24px);
+    max-height: calc(100dvh - var(--nav-height) - 88px);
+    overflow-y: auto;
   }
 }
 

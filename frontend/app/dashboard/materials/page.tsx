@@ -1,11 +1,12 @@
 "use client";
 
-import { materialsAPI, streamRequest } from "@/lib/api";
-import { useState, useEffect, useCallback } from "react";
+import { KnowledgePoint, knowledgePointsAPI, materialsAPI, streamRequest } from "@/lib/api";
+import { useState, useEffect, useCallback, useRef } from "react";
 import AskPanelOverlay from "@/components/AskPanelOverlay";
 import ReactMarkdown from "react-markdown";
 import { IELTS_PASSAGES, IeltsPassage } from "@/lib/ielts-passages";
-import { ArrowLeft, Loader2, Sparkles, Trash2 } from "lucide-react";
+import { speakEnglish } from "@/lib/speech";
+import { ArrowLeft, Loader2, Sparkles, Trash2, Volume2, X } from "lucide-react";
 
 interface Material {
   id: string;
@@ -22,6 +23,13 @@ interface AskState {
   selectedText: string;
   fullSentence?: string;
   type?: "word" | "text";
+}
+
+interface LookupState {
+  text: string;
+  sentence: string;
+  loading: boolean;
+  entry: KnowledgePoint | null;
 }
 
 type Screen = "home" | "library" | "ai" | "saved";
@@ -57,7 +65,7 @@ function Vocab({
         const sentence = e.currentTarget.closest("p")?.textContent || text;
         onWordClick(text, sentence);
       }}
-      title="Click to explain"
+      title="查看释义和读音"
     >
       {children}
     </mark>
@@ -75,9 +83,15 @@ function ArticleBody({
   onTextSelect: (text: string, sentence: string) => void;
 }) {
   const handleMouseUp = () => {
-    const sel = window.getSelection()?.toString().trim();
-    if (!sel || sel.length < 2 || sel.length > 300) return;
-    onTextSelect(sel, sel);
+    const selection = window.getSelection();
+    const text = selection?.toString().trim();
+    if (!selection || !text || text.length < 2 || text.length > 300) return;
+    const anchor = selection.anchorNode;
+    const element = anchor?.nodeType === Node.TEXT_NODE
+      ? anchor.parentElement
+      : anchor as HTMLElement | null;
+    const sentence = element?.closest("p")?.textContent || text;
+    onTextSelect(text, sentence);
   };
 
   return (
@@ -149,11 +163,14 @@ export default function MaterialsPage() {
   const [savingReading, setSavingReading] = useState(false);
   const [readingSaveMessage, setReadingSaveMessage] = useState("");
   const [askDraftKey, setAskDraftKey] = useState(0);
+  const [lookup, setLookup] = useState<LookupState | null>(null);
+  const lookupRequestRef = useRef(0);
 
   useEffect(() => {
     setAskPanelOpen(false);
+    setLookup(null);
     setReadingSaveMessage("");
-  }, [selectedPassage]);
+  }, [selectedPassage, screen]);
 
   const fetchSaved = useCallback(async () => {
     setLoadingSaved(true);
@@ -164,16 +181,62 @@ export default function MaterialsPage() {
     finally { setLoadingSaved(false); }
   }, []);
 
-  const handleWordClick = (word: string, sentence: string) => {
-    setAskState({ isOpen: true, selectedText: word, fullSentence: sentence, type: "word" });
+  const showLookup = useCallback(async (text: string, sentence: string) => {
+    const selectedText = text.trim();
+    const query = selectedText.replace(/^[^A-Za-z]+|[^A-Za-z'-]+$/g, "");
+    const requestId = ++lookupRequestRef.current;
+    setAskPanelOpen(false);
+    setLookup({ text: query || selectedText, sentence, loading: true, entry: null });
+
+    if (!/^[A-Za-z]+(?:['-][A-Za-z]+)*$/.test(query)) {
+      setLookup({ text: selectedText, sentence, loading: false, entry: null });
+      return;
+    }
+
+    try {
+      const result = await knowledgePointsAPI.list({
+        target_language: "en",
+        type: "vocabulary",
+        search: query,
+        page: 1,
+        page_size: 100,
+      });
+      const entries = Array.isArray(result)
+        ? result
+        : (result as { data: KnowledgePoint[] }).data || [];
+      const entry = entries.find(
+        (item) => item.surface_form.toLowerCase() === query.toLowerCase(),
+      ) || null;
+      if (requestId === lookupRequestRef.current) {
+        setLookup({ text: query, sentence, loading: false, entry });
+      }
+    } catch {
+      if (requestId === lookupRequestRef.current) {
+        setLookup({ text: query, sentence, loading: false, entry: null });
+      }
+    }
+  }, []);
+
+  const handleWordClick = (word: string, sentence: string) => showLookup(word, sentence);
+
+  const handleTextSelect = (text: string, sentence: string) => showLookup(text, sentence);
+
+  const askAboutLookup = () => {
+    if (!lookup) return;
+    setAskState({
+      isOpen: true,
+      selectedText: lookup.text,
+      fullSentence: lookup.sentence,
+      type: lookup.text.includes(" ") ? "text" : "word",
+    });
+    setLookup(null);
     setAskPanelOpen(true);
     setAskDraftKey(Date.now());
   };
 
-  const handleTextSelect = (text: string, sentence: string) => {
-    setAskState({ isOpen: true, selectedText: text, fullSentence: sentence, type: "text" });
-    setAskPanelOpen(true);
-    setAskDraftKey(Date.now());
+  const handleAskPanelOpenChange = (open: boolean) => {
+    setAskPanelOpen(open);
+    if (open) setLookup(null);
   };
 
   const askDraftQuestion = askState.selectedText
@@ -367,9 +430,7 @@ export default function MaterialsPage() {
             }}
           >
             <p style={{ fontSize: "0.75rem", color: "#9ca3af", textAlign: "center" }}>
-              Click a{" "}
-              <span style={{ borderBottom: "2px dashed #16a34a" }}>underlined word</span>{" "}
-              to explain it, or select any text.
+              点击绿色词汇查看释义和读音；需要上下文解释时，再从词汇卡进入 Ask AI。
             </p>
             {source && (
               <p style={{ fontSize: "0.7rem", color: "#d1d5db", textAlign: "center" }}>
@@ -384,12 +445,20 @@ export default function MaterialsPage() {
           </div>
         </div>
 
+        {lookup && (
+          <WordLookupCard
+            lookup={lookup}
+            onClose={() => setLookup(null)}
+            onAsk={askAboutLookup}
+          />
+        )}
+
         {/* Ask AI floating panel */}
         <AskPanelOverlay
           articleTitle={isIelts ? selectedPassage.title : (selectedPassage as Material).title}
           articleContent={content}
           open={askPanelOpen}
-          onOpenChange={setAskPanelOpen}
+          onOpenChange={handleAskPanelOpenChange}
           draftQuestion={askDraftQuestion}
           draftQuestionKey={askDraftKey}
         />
@@ -611,9 +680,16 @@ export default function MaterialsPage() {
             articleTitle={getGeneratedTitle(genContent.trim(), genLevel)}
             articleContent={genContent.trim()}
             open={askPanelOpen}
-            onOpenChange={setAskPanelOpen}
+            onOpenChange={handleAskPanelOpenChange}
             draftQuestion={askDraftQuestion}
             draftQuestionKey={askDraftKey}
+          />
+        )}
+        {lookup && (
+          <WordLookupCard
+            lookup={lookup}
+            onClose={() => setLookup(null)}
+            onAsk={askAboutLookup}
           />
         )}
       </div>
@@ -692,6 +768,67 @@ export default function MaterialsPage() {
 }
 
 // ── Sub-components ──
+
+function WordLookupCard({
+  lookup,
+  onClose,
+  onAsk,
+}: {
+  lookup: LookupState;
+  onClose: () => void;
+  onAsk: () => void;
+}) {
+  const entry = lookup.entry;
+  const spokenText = entry?.surface_form || lookup.text;
+
+  return (
+    <aside className="word-lookup-card" aria-live="polite">
+      <div className="word-lookup-header">
+        <div>
+          <div className="word-lookup-title">{spokenText}</div>
+          {entry && (
+            <div className="word-lookup-meta">
+              {entry.pronunciation && <span>/{entry.pronunciation}/</span>}
+              {entry.pos && <span>{entry.pos}</span>}
+              <span>Band {entry.proficiency_level}</span>
+            </div>
+          )}
+        </div>
+        <div className="word-lookup-tools">
+          <button
+            type="button"
+            onClick={() => speakEnglish(spokenText)}
+            aria-label={`朗读 ${spokenText}`}
+            title="朗读"
+          >
+            <Volume2 size={17} />
+          </button>
+          <button type="button" onClick={onClose} aria-label="关闭词汇卡" title="关闭">
+            <X size={17} />
+          </button>
+        </div>
+      </div>
+
+      <div className="word-lookup-content">
+        {lookup.loading ? (
+          <span className="word-lookup-loading"><Loader2 size={15} className="animate-spin" />查询词库...</span>
+        ) : entry ? (
+          <>
+            <div className="word-lookup-meaning">{entry.meaning_zh}</div>
+            {entry.meaning_en && <div className="word-lookup-definition">{entry.meaning_en}</div>}
+          </>
+        ) : (
+          <div className="word-lookup-empty">词库暂未收录这项内容，可以交给文章助手结合上下文解释。</div>
+        )}
+      </div>
+
+      <button type="button" className="word-lookup-ask" onClick={onAsk}>
+        <Sparkles size={15} />
+        Ask AI
+      </button>
+    </aside>
+  );
+}
 
 function HomeButton({
   label,
