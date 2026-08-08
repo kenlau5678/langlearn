@@ -605,14 +605,14 @@ a:hover {
   }
 
   .reading-page-with-ai {
-    padding-right: 420px;
+    padding-right: 480px;
   }
 
   .ask-dock-open {
     top: var(--nav-height);
     right: 0;
     bottom: 0;
-    width: 420px;
+    width: 480px;
     border-top: 0;
     border-right: 1px solid var(--border);
     border-bottom: 0;
