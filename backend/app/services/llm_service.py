@@ -84,15 +84,12 @@ async def stream_explain_grammar(
     if question:
         user_msg += f"学习者追问: {question}\n\n"
     user_msg += (
-        "请详细解释:\n"
-        "1. 选中部分的语法结构和用法\n"
-        "2. 与其他类似语法形式的区别\n"
-        "3. 常见错误和使用建议\n"
-        "用简洁的中文回答，适合中国学习者理解。"
+        "请使用简洁的 Markdown 回答：先给核心意思，再列出最多三条结构或用法重点。"
+        "用粗体突出关键词，不重复结论；除非问题明确要求，否则控制在约 180 个中文字以内。"
     )
 
     messages = [
-        {"role": "system", "content": "你是一位专业的语言学习导师，用中文为学习者解释语法。回答要准确、实用、易懂。"},
+        {"role": "system", "content": "你是一位专业的语言学习导师。回答要准确、实用、简洁，并使用清晰的 Markdown。"},
         {"role": "user", "content": user_msg},
     ]
 
