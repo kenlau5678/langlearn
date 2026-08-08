@@ -330,7 +330,7 @@ a:hover {
 }
 
 .ask-bubble {
-  max-width: 80%;
+  max-width: calc(100% - 37px);
   border-radius: 14px;
   border-top-left-radius: 4px;
   background: var(--muted);
@@ -397,6 +397,7 @@ a:hover {
 }
 
 .ask-message-user .ask-bubble {
+  max-width: 80%;
   border-radius: 14px;
   border-top-right-radius: 4px;
   background: var(--primary);
