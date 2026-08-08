@@ -137,9 +137,14 @@ export default function ReviewPage() {
       return;
     }
 
-    const nextTotal = total - 1;
-    if (nextTotal <= 0) leaveVocabMode();
-    else if (vocabIdx >= nextTotal) setVocabIdx(nextTotal - 1);
+    const nextDeck = studyDeck.filter((item) => item.word !== word.word);
+    if (nextDeck.length === 0) {
+      leaveVocabMode();
+      return;
+    }
+
+    setStudyDeck(nextDeck);
+    setVocabIdx((index) => Math.min(index, nextDeck.length - 1));
   };
 
   // ── SRS handlers ──
