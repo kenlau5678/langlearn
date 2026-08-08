@@ -424,8 +424,9 @@ a:hover {
 .word-lookup-card {
   position: fixed;
   z-index: 46;
-  top: calc(var(--nav-height) + 64px);
-  right: 24px;
+  top: var(--word-card-top, calc(var(--nav-height) + 64px));
+  left: var(--word-card-left, auto);
+  right: auto;
   width: min(360px, calc(100vw - 48px));
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -652,6 +653,7 @@ a:hover {
 
   .word-lookup-card {
     top: auto;
+    left: 12px;
     right: 12px;
     bottom: calc(64px + env(safe-area-inset-bottom));
     width: calc(100vw - 24px);

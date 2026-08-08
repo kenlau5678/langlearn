@@ -4,6 +4,7 @@ import { KnowledgePoint, knowledgePointsAPI, materialsAPI, streamRequest } from 
 import { useState, useEffect, useCallback, useRef } from "react";
 import AskPanelOverlay from "@/components/AskPanelOverlay";
 import ReactMarkdown from "react-markdown";
+import { ARTICLE_GLOSSARY, ArticleGlossaryEntry } from "@/lib/article-glossary";
 import { IELTS_PASSAGES, IeltsPassage } from "@/lib/ielts-passages";
 import { speakEnglish } from "@/lib/speech";
 import { ArrowLeft, Loader2, Sparkles, Trash2, Volume2, X } from "lucide-react";
@@ -29,7 +30,15 @@ interface LookupState {
   text: string;
   sentence: string;
   loading: boolean;
-  entry: KnowledgePoint | null;
+  entry: KnowledgePoint | ArticleGlossaryEntry | null;
+  position: { left: number; top: number };
+}
+
+interface SelectionRect {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
 }
 
 type Screen = "home" | "library" | "ai" | "saved";
@@ -47,7 +56,7 @@ function Vocab({
   onWordClick,
 }: {
   children: string;
-  onWordClick: (word: string, sentence: string) => void;
+  onWordClick: (word: string, sentence: string, rect: SelectionRect) => void;
 }) {
   return (
     <mark
@@ -63,7 +72,8 @@ function Vocab({
         e.stopPropagation();
         const text = e.currentTarget.textContent || "";
         const sentence = e.currentTarget.closest("p")?.textContent || text;
-        onWordClick(text, sentence);
+        const rect = e.currentTarget.getBoundingClientRect();
+        onWordClick(text, sentence, rect);
       }}
       title="查看释义和读音"
     >
@@ -79,8 +89,8 @@ function ArticleBody({
   onTextSelect,
 }: {
   content: string;
-  onWordClick: (word: string, sentence: string) => void;
-  onTextSelect: (text: string, sentence: string) => void;
+  onWordClick: (word: string, sentence: string, rect: SelectionRect) => void;
+  onTextSelect: (text: string, sentence: string, rect: SelectionRect) => void;
 }) {
   const articleRef = useRef<HTMLDivElement>(null);
 
@@ -101,7 +111,11 @@ function ArticleBody({
         ? anchor.parentElement
         : anchor as HTMLElement;
       const sentence = element?.closest("p")?.textContent || text;
-      onTextSelect(text, sentence);
+      const rangeRect = selection.rangeCount > 0
+        ? selection.getRangeAt(0).getBoundingClientRect()
+        : element?.getBoundingClientRect();
+      if (!rangeRect) return;
+      onTextSelect(text, sentence, rangeRect);
     }, 80);
   };
 
@@ -193,15 +207,30 @@ export default function MaterialsPage() {
     finally { setLoadingSaved(false); }
   }, []);
 
-  const showLookup = useCallback(async (text: string, sentence: string) => {
+  const showLookup = useCallback(async (text: string, sentence: string, rect: SelectionRect) => {
     const selectedText = text.trim();
     const query = selectedText.replace(/^[^A-Za-z]+|[^A-Za-z'-]+$/g, "");
     const requestId = ++lookupRequestRef.current;
+    const cardWidth = 360;
+    const cardHeight = 260;
+    const left = rect.right + 12 + cardWidth <= window.innerWidth
+      ? rect.right + 12
+      : Math.max(12, rect.left - cardWidth - 12);
+    const top = rect.bottom + 10 + cardHeight <= window.innerHeight
+      ? rect.bottom + 10
+      : Math.max(12, rect.top - cardHeight - 10);
+    const position = { left, top };
     setAskPanelOpen(false);
-    setLookup({ text: query || selectedText, sentence, loading: true, entry: null });
+    setLookup({ text: query || selectedText, sentence, loading: true, entry: null, position });
 
     if (!/^[A-Za-z]+(?:['-][A-Za-z]+)*$/.test(query)) {
-      setLookup({ text: selectedText, sentence, loading: false, entry: null });
+      setLookup({ text: selectedText, sentence, loading: false, entry: null, position });
+      return;
+    }
+
+    const glossaryEntry = ARTICLE_GLOSSARY[query.toLowerCase()];
+    if (glossaryEntry) {
+      setLookup({ text: query, sentence, loading: false, entry: glossaryEntry, position });
       return;
     }
 
@@ -220,18 +249,18 @@ export default function MaterialsPage() {
         (item) => item.surface_form.toLowerCase() === query.toLowerCase(),
       ) || null;
       if (requestId === lookupRequestRef.current) {
-        setLookup({ text: query, sentence, loading: false, entry });
+        setLookup({ text: query, sentence, loading: false, entry, position });
       }
     } catch {
       if (requestId === lookupRequestRef.current) {
-        setLookup({ text: query, sentence, loading: false, entry: null });
+        setLookup({ text: query, sentence, loading: false, entry: null, position });
       }
     }
   }, []);
 
-  const handleWordClick = (word: string, sentence: string) => showLookup(word, sentence);
+  const handleWordClick = (word: string, sentence: string, rect: SelectionRect) => showLookup(word, sentence, rect);
 
-  const handleTextSelect = (text: string, sentence: string) => showLookup(text, sentence);
+  const handleTextSelect = (text: string, sentence: string, rect: SelectionRect) => showLookup(text, sentence, rect);
 
   const askAboutLookup = () => {
     if (!lookup) return;
@@ -794,7 +823,14 @@ function WordLookupCard({
   const spokenText = entry?.surface_form || lookup.text;
 
   return (
-    <aside className="word-lookup-card" aria-live="polite">
+    <aside
+      className="word-lookup-card"
+      aria-live="polite"
+      style={{
+        "--word-card-left": `${lookup.position.left}px`,
+        "--word-card-top": `${lookup.position.top}px`,
+      } as React.CSSProperties}
+    >
       <div className="word-lookup-header">
         <div>
           <div className="word-lookup-title">{spokenText}</div>
