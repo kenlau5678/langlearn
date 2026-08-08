@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Bot, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Loader2, Send, Sparkles } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import { streamRequest } from "@/lib/api";
 
 interface AskPanelOverlayProps {
@@ -154,7 +155,13 @@ export default function AskPanelOverlay({
                   {message.role === "user" ? "我" : <Bot size={14} />}
                 </div>
                 <div className="ask-bubble">
-                  {message.text || (
+                  {message.text ? (
+                    message.role === "assistant" ? (
+                      <ReactMarkdown>{message.text}</ReactMarkdown>
+                    ) : (
+                      message.text
+                    )
+                  ) : (
                     <span className="ask-loading">
                       <Loader2 size={13} className="animate-spin" />
                       思考中...
