@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 
 from app.config import get_settings
 from app.middleware import ErrorHandlingMiddleware
@@ -23,6 +24,7 @@ app = FastAPI(
 
 # Error handling (must be added before other middleware)
 app.add_middleware(ErrorHandlingMiddleware)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # CORS
 settings = get_settings()

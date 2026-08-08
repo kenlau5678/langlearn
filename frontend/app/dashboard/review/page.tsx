@@ -9,6 +9,7 @@ import { CheckCircle2, XCircle, Loader2, RotateCcw, ChevronRight, Volume2 } from
 interface SessionStats { correct: number; wrong: number; total: number }
 
 const FORGOTTEN_VOCAB_KEY = "langlearn:forgotten-vocab";
+const VOCAB_CACHE_KEY = "langlearn:ielts-vocabulary:v1";
 const PLACEHOLDER_MEANING_PREFIX = "待补充释义：";
 const GENERIC_CORPUS_MEANING = "IELTS reading vocabulary from the built-in article corpus";
 const CEFR_LEVELS = ["B2", "C1", "C2"] as const;
@@ -73,9 +74,25 @@ export default function ReviewPage() {
   useEffect(() => { fetchSrs(); }, [fetchSrs]);
 
   useEffect(() => {
+    try {
+      const cached = sessionStorage.getItem(VOCAB_CACHE_KEY);
+      if (cached) {
+        const words = JSON.parse(cached);
+        if (Array.isArray(words)) {
+          setVocabulary(words);
+          setVocabularyLoading(false);
+          return;
+        }
+      }
+    } catch { /* fetch a fresh copy */ }
+
     dictionaryAPI
       .listIeltsVocabulary()
-      .then((result) => setVocabulary((result as { data: IeltsWord[] }).data || []))
+      .then((result) => {
+        const words = (result as { data: IeltsWord[] }).data || [];
+        setVocabulary(words);
+        try { sessionStorage.setItem(VOCAB_CACHE_KEY, JSON.stringify(words)); } catch { /* cache is optional */ }
+      })
       .catch(() => setVocabulary([]))
       .finally(() => setVocabularyLoading(false));
   }, []);

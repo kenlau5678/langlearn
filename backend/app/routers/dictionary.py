@@ -3,7 +3,7 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Response
 
 from app.models.user import User
 from app.services.auth_service import get_current_user
@@ -51,6 +51,8 @@ async def lookup_word(
 
 @router.get("/ielts-vocabulary")
 async def list_ielts_vocabulary(
+    response: Response,
     current_user: User = Depends(get_current_user),
 ):
+    response.headers["Cache-Control"] = "private, max-age=86400"
     return {"data": load_ielts_vocabulary()}
