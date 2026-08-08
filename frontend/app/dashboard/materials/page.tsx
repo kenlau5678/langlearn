@@ -451,7 +451,7 @@ export default function MaterialsPage() {
           className="reading-article-wrap"
           style={{
             paddingTop: 56,
-            paddingBottom: 80,
+            paddingBottom: 32,
           }}
         >
           <ArticleBody
@@ -463,8 +463,8 @@ export default function MaterialsPage() {
           {/* Footer */}
           <div
             style={{
-              marginTop: 56,
-              paddingTop: 24,
+              marginTop: 40,
+              paddingTop: 18,
               borderTop: "1px solid #e5e7eb",
               display: "flex",
               flexDirection: "column",

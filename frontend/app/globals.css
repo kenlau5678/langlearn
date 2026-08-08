@@ -169,7 +169,7 @@ a:hover {
 .reading-page {
   min-height: calc(100vh - var(--nav-height));
   width: 100vw;
-  margin: -32px calc(50% - 50vw) 0;
+  margin: -32px calc(50% - 50vw) -32px;
   background: #fff;
   transition: padding-right 0.2s ease;
 }
