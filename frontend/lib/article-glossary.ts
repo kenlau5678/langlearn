@@ -61,8 +61,8 @@ export const ARTICLE_GLOSSARY = <unknown>{
   },
   "accountability": {
     "surface_form": "accountability",
-    "pronunciation": "?.kaunt?'biliti",
-    "meaning_zh": "????????",
+    "pronunciation": "əˌkaʊntəˈbɪləti",
+    "meaning_zh": "责任；问责制",
     "meaning_en": "responsibility to someone or for some activity",
     "pos": "noun",
     "proficiency_level": "7.0"
@@ -525,8 +525,8 @@ export const ARTICLE_GLOSSARY = <unknown>{
   },
   "bold": {
     "surface_form": "bold",
-    "pronunciation": "b?uld",
-    "meaning_zh": "???????",
+    "pronunciation": "bəʊld",
+    "meaning_zh": "大胆的；醒目的",
     "meaning_en": "fearless, daring, or visually striking",
     "pos": "adjective",
     "proficiency_level": "6.0"
@@ -4365,8 +4365,8 @@ export const ARTICLE_GLOSSARY = <unknown>{
   },
   "strategic": {
     "surface_form": "strategic",
-    "pronunciation": "str?'ti:d?ik",
-    "meaning_zh": "????????",
+    "pronunciation": "strəˈtiːdʒɪk",
+    "meaning_zh": "战略性的；关键的",
     "meaning_en": "relating to a strategy or highly important to a plan of action",
     "pos": "adjective",
     "proficiency_level": "6.5"

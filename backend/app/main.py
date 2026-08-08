@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
 from app.middleware import ErrorHandlingMiddleware
-from app.routers import auth, users, materials, knowledge_points, progress, generate, ask, admin
+from app.routers import auth, users, materials, knowledge_points, progress, generate, ask, admin, dictionary
 
 
 @asynccontextmanager
@@ -43,6 +43,7 @@ app.include_router(progress.router, prefix="/api/v1/progress", tags=["学习进�
 app.include_router(generate.router, prefix="/api/v1/generate", tags=["AI生成"])
 app.include_router(ask.router, prefix="/api/v1/ask", tags=["AI问答"])
 app.include_router(admin.router, prefix="/api/v1/admin", tags=["管理"])
+app.include_router(dictionary.router, prefix="/api/v1/dictionary", tags=["dictionary"])
 
 
 @app.get("/api/v1/health")

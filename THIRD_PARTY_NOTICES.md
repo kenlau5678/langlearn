@@ -2,8 +2,9 @@
 
 ## ECDICT
 
-The English and Chinese vocabulary definitions in `backend/data/ielts_vocabulary.json`
-and `frontend/lib/ielts-vocab.ts` include data adapted from
+The English and Chinese vocabulary definitions in `backend/data/ielts_vocabulary.json`,
+`backend/data/english_dictionary.json`, `frontend/lib/ielts-vocab.ts`, and
+`frontend/lib/article-glossary.ts` include data adapted from
 [ECDICT](https://github.com/skywind3000/ECDICT).
 
 MIT License

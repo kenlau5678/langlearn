@@ -165,6 +165,11 @@ export const knowledgePointsAPI = {
   get: (id: string) => request<KnowledgePoint>(`/knowledge-points/${id}`),
 };
 
+export const dictionaryAPI = {
+  lookup: (word: string) =>
+    request<DictionaryEntry | null>(`/dictionary/lookup?word=${encodeURIComponent(word)}`),
+};
+
 // --- Admin API ---
 export const adminAPI = {
   ingestVocabulary: (lang = "ja") =>
@@ -391,6 +396,15 @@ export interface KnowledgePoint {
   source: string | null;
   is_verified: boolean;
   created_at: string;
+}
+
+export interface DictionaryEntry {
+  surface_form: string;
+  pronunciation: string;
+  meaning_zh: string;
+  meaning_en: string;
+  pos: string;
+  proficiency_level: string;
 }
 
 export interface ProgressStats {

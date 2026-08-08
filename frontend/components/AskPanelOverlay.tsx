@@ -12,6 +12,7 @@ interface AskPanelOverlayProps {
   onOpenChange: (open: boolean) => void;
   draftQuestion?: string;
   draftQuestionKey?: number;
+  autoSendDraft?: boolean;
 }
 
 const SUGGESTIONS = ["总结大意", "解释难句", "出题思路", "写作借鉴"];
@@ -24,6 +25,7 @@ export default function AskPanelOverlay({
   onOpenChange,
   draftQuestion = "",
   draftQuestionKey = 0,
+  autoSendDraft = false,
 }: AskPanelOverlayProps) {
   const [messages, setMessages] = useState<{ role: "user" | "assistant"; text: string }[]>([
     { role: "assistant", text: "Hi，我可以帮你理解这篇文章。想问什么？" },
@@ -32,6 +34,7 @@ export default function AskPanelOverlay({
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const lastAutoSentKeyRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -43,10 +46,10 @@ export default function AskPanelOverlay({
 
   useEffect(() => {
     if (!draftQuestion) return;
-    setInput(draftQuestion);
+    if (!autoSendDraft) setInput(draftQuestion);
     onOpenChange(true);
-    setTimeout(() => inputRef.current?.focus(), 80);
-  }, [draftQuestion, draftQuestionKey, onOpenChange]);
+    if (!autoSendDraft) setTimeout(() => inputRef.current?.focus(), 80);
+  }, [draftQuestion, draftQuestionKey, autoSendDraft, onOpenChange]);
 
   const sendQuestion = useCallback(
     async (question: string) => {
@@ -87,6 +90,17 @@ export default function AskPanelOverlay({
     },
     [articleTitle, articleContent, targetLanguage, loading],
   );
+
+  useEffect(() => {
+    if (
+      !autoSendDraft
+      || !draftQuestion
+      || loading
+      || lastAutoSentKeyRef.current === draftQuestionKey
+    ) return;
+    lastAutoSentKeyRef.current = draftQuestionKey;
+    sendQuestion(draftQuestion);
+  }, [autoSendDraft, draftQuestion, draftQuestionKey, loading, sendQuestion]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();

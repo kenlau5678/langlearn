@@ -1,6 +1,6 @@
 "use client";
 
-import { KnowledgePoint, knowledgePointsAPI, materialsAPI, streamRequest } from "@/lib/api";
+import { DictionaryEntry, KnowledgePoint, dictionaryAPI, knowledgePointsAPI, materialsAPI, streamRequest } from "@/lib/api";
 import { useState, useEffect, useCallback, useRef } from "react";
 import AskPanelOverlay from "@/components/AskPanelOverlay";
 import ReactMarkdown from "react-markdown";
@@ -30,7 +30,7 @@ interface LookupState {
   text: string;
   sentence: string;
   loading: boolean;
-  entry: KnowledgePoint | ArticleGlossaryEntry | null;
+  entry: DictionaryEntry | KnowledgePoint | ArticleGlossaryEntry | null;
   position: { left: number; top: number };
 }
 
@@ -235,6 +235,15 @@ export default function MaterialsPage() {
     }
 
     try {
+      const dictionaryResult = await dictionaryAPI.lookup(query);
+      const dictionaryEntry = (dictionaryResult as { data: DictionaryEntry | null }).data;
+      if (dictionaryEntry) {
+        if (requestId === lookupRequestRef.current) {
+          setLookup({ text: query, sentence, loading: false, entry: dictionaryEntry, position });
+        }
+        return;
+      }
+
       const result = await knowledgePointsAPI.list({
         target_language: "en",
         type: "vocabulary",
@@ -502,6 +511,7 @@ export default function MaterialsPage() {
           onOpenChange={handleAskPanelOpenChange}
           draftQuestion={askDraftQuestion}
           draftQuestionKey={askDraftKey}
+          autoSendDraft
         />
       </div>
     );
@@ -724,6 +734,7 @@ export default function MaterialsPage() {
             onOpenChange={handleAskPanelOpenChange}
             draftQuestion={askDraftQuestion}
             draftQuestionKey={askDraftKey}
+            autoSendDraft
           />
         )}
         {lookup && (
@@ -838,7 +849,7 @@ function WordLookupCard({
             <div className="word-lookup-meta">
               {entry.pronunciation && <span>/{entry.pronunciation}/</span>}
               {entry.pos && <span>{entry.pos}</span>}
-              <span>Band {entry.proficiency_level}</span>
+              {entry.proficiency_level && <span>Band {entry.proficiency_level}</span>}
             </div>
           )}
         </div>
