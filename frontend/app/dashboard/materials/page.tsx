@@ -287,10 +287,10 @@ export default function MaterialsPage() {
     setAskDraftKey(Date.now());
   };
 
-  const handleAskPanelOpenChange = (open: boolean) => {
+  const handleAskPanelOpenChange = useCallback((open: boolean) => {
     setAskPanelOpen(open);
     if (open) closeLookup();
-  };
+  }, [closeLookup]);
 
   const askDraftQuestion = askState.selectedText
     ? askState.type === "word"
