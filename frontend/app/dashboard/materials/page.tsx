@@ -69,6 +69,7 @@ function Vocab({
       }}
       onClick={(e) => {
         e.stopPropagation();
+        window.getSelection()?.removeAllRanges();
         const text = e.currentTarget.textContent || "";
         const sentence = e.currentTarget.closest("p")?.textContent || text;
         const rect = e.currentTarget.getBoundingClientRect();
@@ -100,6 +101,7 @@ function ArticleBody({
       const anchor = selection?.anchorNode;
       if (
         !selection
+        || selection.isCollapsed
         || !anchor
         || !articleRef.current?.contains(anchor)
         || !text
@@ -191,11 +193,17 @@ export default function MaterialsPage() {
   const [lookup, setLookup] = useState<LookupState | null>(null);
   const lookupRequestRef = useRef(0);
 
+  const closeLookup = useCallback(() => {
+    lookupRequestRef.current += 1;
+    window.getSelection()?.removeAllRanges();
+    setLookup(null);
+  }, []);
+
   useEffect(() => {
     setAskPanelOpen(false);
-    setLookup(null);
+    closeLookup();
     setReadingSaveMessage("");
-  }, [selectedPassage, screen]);
+  }, [selectedPassage, screen, closeLookup]);
 
   const fetchSaved = useCallback(async () => {
     setLoadingSaved(true);
@@ -212,14 +220,16 @@ export default function MaterialsPage() {
     const requestId = ++lookupRequestRef.current;
     const cardWidth = 360;
     const cardHeight = 260;
-    const left = rect.right + 12 + cardWidth <= window.innerWidth
+    const desktopAssistantWidth = askPanelOpen && window.innerWidth >= 1024 ? 480 : 0;
+    const availableRight = window.innerWidth - desktopAssistantWidth;
+    const left = rect.right + 12 + cardWidth <= availableRight
       ? rect.right + 12
       : Math.max(12, rect.left - cardWidth - 12);
     const top = rect.bottom + 10 + cardHeight <= window.innerHeight
       ? rect.bottom + 10
       : Math.max(12, rect.top - cardHeight - 10);
     const position = { left, top };
-    setAskPanelOpen(false);
+    if (askPanelOpen && window.innerWidth < 1024) setAskPanelOpen(false);
     setLookup({ text: query || selectedText, sentence, loading: true, entry: null, position });
 
     if (!/^[A-Za-z]+(?:['-][A-Za-z]+)*$/.test(query)) {
@@ -258,7 +268,7 @@ export default function MaterialsPage() {
         setLookup({ text: query, sentence, loading: false, entry: null, position });
       }
     }
-  }, []);
+  }, [askPanelOpen]);
 
   const handleWordClick = (word: string, sentence: string, rect: SelectionRect) => showLookup(word, sentence, rect);
 
@@ -272,14 +282,14 @@ export default function MaterialsPage() {
       fullSentence: lookup.sentence,
       type: lookup.text.includes(" ") ? "text" : "word",
     });
-    setLookup(null);
+    closeLookup();
     setAskPanelOpen(true);
     setAskDraftKey(Date.now());
   };
 
   const handleAskPanelOpenChange = (open: boolean) => {
     setAskPanelOpen(open);
-    if (open) setLookup(null);
+    if (open) closeLookup();
   };
 
   const askDraftQuestion = askState.selectedText
@@ -491,7 +501,7 @@ export default function MaterialsPage() {
         {lookup && (
           <WordLookupCard
             lookup={lookup}
-            onClose={() => setLookup(null)}
+            onClose={closeLookup}
             onAsk={askAboutLookup}
           />
         )}
