@@ -9,7 +9,7 @@ import { CheckCircle2, XCircle, Loader2, RotateCcw, ChevronRight, Volume2 } from
 interface SessionStats { correct: number; wrong: number; total: number }
 
 const FORGOTTEN_VOCAB_KEY = "langlearn:forgotten-vocab";
-const VOCAB_CACHE_KEY = "langlearn:ielts-vocabulary:v1";
+const VOCAB_CACHE_KEY = "langlearn:ielts-vocabulary:v2";
 const PLACEHOLDER_MEANING_PREFIX = "待补充释义：";
 const GENERIC_CORPUS_MEANING = "IELTS reading vocabulary from the built-in article corpus";
 const CEFR_LEVELS = ["B2", "C1", "C2"] as const;
@@ -37,6 +37,12 @@ function shuffleWords(words: IeltsWord[]) {
   return shuffled;
 }
 
+function isCoreVocabulary(word: IeltsWord) {
+  if (word.frequency_band === "专业词") return false;
+  if (word.frequency_band !== "低频") return true;
+  return word.frequency_rank !== null && word.frequency_rank <= 18000;
+}
+
 // ── Main component ────────────────────────────────────────────────────────
 export default function ReviewPage() {
   const [srsCards, setSrsCards] = useState<ReviewCard[]>([]);
@@ -51,6 +57,7 @@ export default function ReviewPage() {
   const [studyDeck, setStudyDeck] = useState<IeltsWord[]>([]);
   const [cefrFilter, setCefrFilter] = useState<"all" | IeltsWord["cefr"]>("all");
   const [topicFilter, setTopicFilter] = useState("all");
+  const [includeRareWords, setIncludeRareWords] = useState(false);
 
   // srs state
   const [srsIdx, setSrsIdx] = useState(0);
@@ -120,8 +127,9 @@ export default function ReviewPage() {
     () => vocabulary.filter((word) =>
       (cefrFilter === "all" || word.cefr === cefrFilter)
       && (topicFilter === "all" || word.topic === topicFilter)
+      && (includeRareWords || isCoreVocabulary(word))
     ),
-    [cefrFilter, topicFilter, vocabulary]
+    [cefrFilter, includeRareWords, topicFilter, vocabulary]
   );
   const filteredVocab = studyDeck;
 
@@ -396,18 +404,29 @@ export default function ReviewPage() {
             </FilterPill>
           ))}
         </div>
-        <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "0.8125rem", color: "#6b7280" }}>
-          <span>IELTS 主题</span>
-          <select
-            value={topicFilter}
-            onChange={(event) => setTopicFilter(event.target.value)}
-            style={{ minWidth: 150, padding: "7px 10px", border: "1px solid #e5e7eb", borderRadius: 8, background: "#fff", color: "#374151", fontSize: "0.8125rem" }}
-          >
-            <option value="all">全部主题</option>
-            {ieltsTopics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
-          </select>
-          <span>{selectedVocab.length} 词</span>
-        </label>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "0.8125rem", color: "#6b7280" }}>
+            <span>IELTS 主题</span>
+            <select
+              value={topicFilter}
+              onChange={(event) => setTopicFilter(event.target.value)}
+              style={{ minWidth: 150, padding: "7px 10px", border: "1px solid #e5e7eb", borderRadius: 8, background: "#fff", color: "#374151", fontSize: "0.8125rem" }}
+            >
+              <option value="all">全部主题</option>
+              {ieltsTopics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
+            </select>
+            <span>{selectedVocab.length} 词</span>
+          </label>
+          <label style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: "0.8125rem", color: "#6b7280", cursor: "pointer" }}>
+            <input
+              type="checkbox"
+              checked={includeRareWords}
+              onChange={(event) => setIncludeRareWords(event.target.checked)}
+              style={{ accentColor: "#16a34a" }}
+            />
+            包含生僻词
+          </label>
+        </div>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>

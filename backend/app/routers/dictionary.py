@@ -34,6 +34,7 @@ def load_ielts_vocabulary() -> list[dict]:
             "band": entry.get("proficiency_level") or "6.5",
             "cefr": entry.get("metadata", {}).get("cefr") or "B2",
             "frequency_band": entry.get("metadata", {}).get("frequency_band") or "",
+            "frequency_rank": entry.get("metadata", {}).get("frequency_rank"),
             "topic": entry.get("metadata", {}).get("topic") or "综合学术",
         }
         for entry in entries

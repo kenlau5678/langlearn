@@ -405,6 +405,7 @@ export interface IeltsWord {
   band: string;
   cefr: "B2" | "C1" | "C2";
   frequency_band: string;
+  frequency_rank: number | null;
   topic: string;
 }
 
